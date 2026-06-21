@@ -409,7 +409,7 @@ function finishReveal() {
 }
 
 $('#scrollCue')?.addEventListener('click', () =>
-  $('#story').scrollIntoView({ behavior: 'smooth' }));
+  ($('#temple') || $('#story')).scrollIntoView({ behavior: 'smooth' }));
 
 
 /* =================================================================
