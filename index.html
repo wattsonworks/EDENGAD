@@ -26,6 +26,14 @@
 </head>
 <body>
 
+<!-- SVG filters: deckled handmade-paper edge -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="deckle">
+    <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="3" seed="9" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
 <!-- ============================================================= -->
 <!--  ACT 0 — ENVELOPE / LOADER                                    -->
 <!-- ============================================================= -->
@@ -49,10 +57,13 @@
       <div class="env-back" aria-hidden="true"></div>
       <div class="env-front" aria-hidden="true"><span class="env-sheen"></span></div>
 
-      <!-- the opening flap (two faces for a real 3D fold) -->
-      <div class="env-flap" aria-hidden="true">
-        <span class="flap-face flap-out"><span class="flap-mono">E <span class="amp">&amp;</span> G</span></span>
-        <span class="flap-face flap-in"></span>
+      <!-- opening flap: pivot wrapper holds depth, inner .env-flap does the
+           clean fold-over-the-top into an upward Temple pyramid -->
+      <div class="env-flap-pivot" aria-hidden="true">
+        <div class="env-flap">
+          <span class="flap-face flap-out"><span class="flap-mono">עדן &amp; גד</span></span>
+          <span class="flap-face flap-in"><img class="flap-liner" src="assets/img/temple.svg" alt="" /></span>
+        </div>
       </div>
 
       <!-- wax seal + break burst -->
@@ -94,6 +105,7 @@
 <main id="main" class="stage">
   <section class="card-scene">
     <article class="card" id="card">
+      <span class="bsd">בס״ד</span>
       <!-- decorative frame -->
       <span class="frame frame-1" aria-hidden="true"></span>
       <span class="frame frame-2" aria-hidden="true"></span>
@@ -111,14 +123,16 @@
         </svg>
       </div>
 
-      <p class="overline" data-i18n="overline">We are getting married</p>
+      <p class="overline" data-i18n="overline">נרגשים להזמינכם לחגוג עימנו</p>
 
       <h1 class="names">
         <span class="name-en" hidden>Eden <span class="amp">&amp;</span> Gad</span>
         <span class="name-he">עדן <span class="amp">&amp;</span> גד</span>
       </h1>
 
-      <p class="date-line" data-i18n="dateLabel">26 July 2026</p>
+      <p class="invite-line" data-i18n="invite2">את היום המאושר בחיינו,</p>
+      <p class="invite-line" data-i18n="invite3">שיתקיים בעזרת ה׳ ביום ראשון</p>
+      <p class="date-line" data-i18n="dateLabel">י״ב באב התשפ״ו · 26.07.2026</p>
 
       <!-- scratch reveal -->
       <div class="reveal-wrap">
@@ -180,6 +194,18 @@
 
 
   <!-- =========================================================== -->
+  <!--  ACT 2.5 — THE QUOTE (oval vellum)                          -->
+  <!-- =========================================================== -->
+  <section class="quote-sec" id="quote">
+    <figure class="quote-oval reveal-on-scroll">
+      <span class="quote-orn" aria-hidden="true">✦</span>
+      <blockquote class="quote-text" data-i18n="quote">וְדוֹמֶה הָיָה לִי שֶׁהָאָרֶץ שֶׁהָלַכְתִּי עָלֶיהָ וְהָרְחוֹבוֹת שֶׁעָבַרְתִּי בָּהֶם וְכָל הָעוֹלָם כֻּלּוֹ, אֵינָם אֶלָּא פְּרוֹזְדוֹר לְבַיִת זֶה.</blockquote>
+      <figcaption class="quote-author" data-i18n="quoteAuthor">ש״י עגנון</figcaption>
+    </figure>
+  </section>
+
+
+  <!-- =========================================================== -->
   <!--  ACT 3 — DETAILS                                            -->
   <!-- =========================================================== -->
   <section class="details" id="details">
@@ -196,17 +222,24 @@
 
         <dl class="detail-rows">
           <div class="detail-row">
-            <dt data-i18n="whenLabel">When</dt>
+            <dt data-i18n="whenLabel">מתי</dt>
             <dd>
-              <span class="dd-strong" data-i18n="whenValue">Motzaei Shabbat · 26 July 2026</span>
-              <span class="dd-sub" data-i18n="whenSub">12 Av 5786 · after Shabbat ends</span>
+              <span class="dd-strong" data-i18n="whenValue">יום ראשון · 26 ביולי 2026</span>
+              <span class="dd-sub" data-i18n="whenSub">י״ב באב התשפ״ו</span>
             </dd>
           </div>
           <div class="detail-row">
-            <dt data-i18n="whereLabel">Where</dt>
+            <dt data-i18n="schedLabel">לוח זמנים</dt>
             <dd>
-              <span class="dd-strong" data-i18n="whereValue">Venue to be announced</span>
-              <span class="dd-sub" data-i18n="whereSub">Full details to follow with the invitation</span>
+              <span class="dd-strong" data-i18n="schedValue">קבלת פנים 19:00</span>
+              <span class="dd-sub" data-i18n="schedSub">חופה וקידושין 20:00</span>
+            </dd>
+          </div>
+          <div class="detail-row">
+            <dt data-i18n="whereLabel">איפה</dt>
+            <dd>
+              <span class="dd-strong" data-i18n="whereValue">אולמי אלכסנדר</span>
+              <span class="dd-sub" data-i18n="whereSub">המסילה 2, עמק חפר</span>
             </dd>
           </div>
         </dl>

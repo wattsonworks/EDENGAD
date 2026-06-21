@@ -4,22 +4,25 @@
    ================================================================= */
 
 :root{
-  /* palette */
-  --rose-0:#f7e6e6;       /* lightest */
-  --rose-1:#f1d8d8;
-  --rose-2:#ead0d0;
-  --rose-3:#e3c4c5;       /* card mid */
-  --rose-4:#d8b3b4;       /* deeper edge */
-  --ink:#5a4748;          /* warm brown-grey text */
-  --ink-soft:#8a7273;
-  --ink-faint:#b69a9b;
-  --gold:#b98a6d;
-  --line:rgba(120,80,80,.34);
-  --line-soft:rgba(120,80,80,.18);
-  --paper:#f4e2e2;
+  /* palette — warm ivory / sepia / sage / antique gold (concept-art vintage) */
+  --rose-0:#f7f0e1;       /* lightest cream */
+  --rose-1:#f1e8d5;
+  --rose-2:#e9ddc4;       /* paper mid */
+  --rose-3:#dfd0b3;       /* deeper edge */
+  --rose-4:#d2c09c;
+  --ink:#574a37;          /* sepia ink */
+  --ink-soft:#897a60;
+  --ink-faint:#b1a384;
+  --gold:#a8853f;         /* antique gold */
+  --gold-soft:#c4a468;
+  --sage:#828a66;         /* temple-garden sage */
+  --sage-soft:#a5ab8a;
+  --line:rgba(120,98,58,.34);
+  --line-soft:rgba(120,98,58,.18);
+  --paper:#f3ead8;
 
   --serif:'Cormorant Garamond', Georgia, serif;
-  --script:'Pinyon Script', 'Cormorant Garamond', cursive;
+  --script:'Cormorant Garamond', Georgia, serif;
   --hebrew:'Frank Ruhl Libre', 'Cormorant Garamond', serif;
 
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -36,12 +39,18 @@ body{
   font-family:var(--serif);
   color:var(--ink);
   background:
-    radial-gradient(120% 80% at 50% -10%, var(--rose-0) 0%, var(--rose-1) 38%, var(--rose-2) 70%, var(--rose-3) 100%);
+    radial-gradient(130% 85% at 50% -8%, var(--rose-0) 0%, var(--rose-1) 40%, var(--rose-2) 74%, var(--rose-3) 100%);
   background-attachment:fixed;
   min-height:100vh;
   overflow-x:hidden;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
+}
+/* faint paper grain over everything */
+body::before{
+  content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42  0 0 0 0 0.36  0 0 0 0 0.24  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 html[dir="rtl"] body{ font-family:var(--hebrew); }
@@ -73,9 +82,9 @@ body.locked{ overflow:hidden; height:100vh; }
   content:""; position:absolute; border-radius:50%; filter:blur(45px); opacity:.5;
 }
 .ambient::before{ width:48vmin; height:48vmin; left:-12vmin; top:6vmin;
-  background:radial-gradient(circle,#fff6f0,transparent 70%); }
+  background:radial-gradient(circle,#fdf6e6,transparent 70%); }
 .ambient::after{ width:56vmin; height:56vmin; right:-16vmin; bottom:2vmin;
-  background:radial-gradient(circle,#f8dede,transparent 70%); }
+  background:radial-gradient(circle,#efe6cd,transparent 70%); }
 
 /* floating petals / sparkles (filled by JS) */
 .petals{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
@@ -122,14 +131,15 @@ body.locked{ overflow:hidden; height:100vh; }
 /* card tucked INSIDE the pocket when closed (top edge stays below the
    envelope rim, hidden by the flap); it only rises out once opened */
 .env-card{ position:absolute; left:7%; right:7%; top:6%; height:88%;
-  border-radius:8px; background:linear-gradient(165deg,#fcf0f0,#f3dada);
-  box-shadow:0 10px 26px rgba(120,70,70,.24);
+  border-radius:8px; background:linear-gradient(165deg,#fcf6e8,#efe2c8);
+  box-shadow:0 10px 26px rgba(110,90,55,.24);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:8px; padding:14px; transform:translateZ(6px) translateY(0);
   transition:transform 1.2s var(--ease-rise) 1s; }
-.env-card > *{ opacity:0; transition:opacity .6s var(--ease) 1.35s; }
-.envelope-scene.is-open .env-card{ transform:translateZ(24px) translateY(-99%); }
-.envelope-scene.is-open .env-card > *{ opacity:1; }
+.env-card > *{ opacity:0; }
+/* the card stays tucked in the pocket on open — the Temple pyramid is the
+   reveal; the names appear in the main card scene after the hand-off */
+.envelope-scene.is-open .env-card{ transform:translateZ(6px) translateY(0); }
 .env-card-overline{ font-size:11px; letter-spacing:.42em; text-indent:.42em; color:var(--ink-soft); text-transform:uppercase; }
 .env-card-mono{ font-size:clamp(30px,9vw,44px); color:var(--ink); letter-spacing:.04em; }
 .env-card-sub{ font-family:var(--script); font-size:clamp(20px,6vw,28px); color:var(--gold); }
@@ -149,26 +159,37 @@ html[dir="rtl"] .env-card-sub{ font-family:var(--hebrew); font-weight:500; font-
   transform:translateX(-130%); animation:sheen 5s ease-in-out 1.6s infinite; }
 @keyframes sheen{ 0%{ transform:translateX(-130%) } 24%,100%{ transform:translateX(130%) } }
 
-/* 3D opening flap (two faces) */
-.env-flap{ position:absolute; left:0; right:0; top:0; height:62%;
-  transform-origin:top center; transform-style:preserve-3d;
-  transform:translateZ(13px) rotateX(0deg);
-  transition:transform 1.05s var(--ease-open) .3s; }
-.flap-face{ position:absolute; inset:0; clip-path:polygon(0 0,100% 0,50% 100%);
-  backface-visibility:hidden; -webkit-backface-visibility:hidden; }
-.flap-out{ background:linear-gradient(165deg,var(--rose-1),var(--rose-2));
-  display:flex; justify-content:center; box-shadow:0 2px 8px rgba(120,70,70,.18); }
-.flap-in{ background:linear-gradient(165deg,#f7e4e4,#ecd2d2); transform:rotateX(180deg);
-  box-shadow:inset 0 0 0 1px rgba(180,130,130,.22); }
-.flap-mono{ margin-top:8%; font-size:clamp(20px,6.4vw,30px); color:var(--ink); letter-spacing:.05em;
-  text-shadow:0 1px 0 rgba(255,255,255,.55),0 -1px 1px rgba(150,100,100,.25); }
-.envelope-scene.is-open .env-flap{ transform:translateZ(13px) rotateX(-172deg); }
+/* 3D opening flap — the PIVOT wrapper holds the depth (constant), the inner
+   .env-flap does a clean fold around its top edge: 0° (downward triangle,
+   closed) → 90° (thin edge-on line) → 180° (upward Temple pyramid). */
+.env-flap-pivot{ position:absolute; left:0; right:0; top:0; height:70%;
+  transform:translateZ(13px); transform-style:preserve-3d; }
+.env-flap{ position:absolute; inset:0; transform-origin:top center;
+  transform-style:preserve-3d; transform:rotateX(0deg);
+  transition:transform 1.35s var(--ease-open) .3s; }
+.flap-face{ position:absolute; inset:0;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; }
+/* outside: plain cream downward triangle with the monogram (closed view) */
+.flap-out{ clip-path:polygon(0 0,100% 0,50% 100%);
+  background:linear-gradient(165deg,var(--rose-1),var(--rose-2));
+  display:flex; justify-content:center; box-shadow:0 3px 10px rgba(120,98,58,.2); }
+/* inside: the Temple liner, authored as an UPWARD triangle so it reads as a
+   pyramid once the flap is flipped over. */
+.flap-in{ clip-path:polygon(0 100%,100% 100%,50% 0);
+  transform:rotateX(180deg); background:#e3d7bc;
+  box-shadow:inset 0 0 0 1px rgba(150,120,70,.28); }
+.flap-liner{ position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center 64%; }
+.flap-mono{ margin-top:7%; font-family:var(--hebrew); font-size:clamp(17px,5.4vw,25px);
+  color:var(--ink); letter-spacing:.04em; text-shadow:0 1px 0 rgba(255,250,240,.5); }
+/* open: fold fully over the top into the upward pyramid */
+.envelope-scene.is-open .env-flap{ transform:rotateX(180deg); }
 
 /* wax seal */
 .env-seal{ position:absolute; left:50%; top:54%; width:40px; height:40px; border-radius:50%;
   transform:translate(-50%,-50%) translateZ(16px);
-  background:radial-gradient(circle at 35% 30%,#cf9596,#9c5f63);
-  box-shadow:0 4px 10px rgba(120,50,55,.45), inset 0 1px 2px rgba(255,255,255,.45), inset 0 -2px 4px rgba(90,40,45,.5);
+  background:radial-gradient(circle at 35% 30%,#c08a5b,#7a4d2f);
+  box-shadow:0 4px 10px rgba(80,55,30,.45), inset 0 1px 2px rgba(255,240,220,.4), inset 0 -2px 4px rgba(60,38,20,.5);
   display:flex; align-items:center; justify-content:center; }
 .env-seal svg{ width:21px; height:21px; fill:rgba(255,245,245,.92); }
 .envelope-scene.is-breaking .env-seal{ animation:sealBreak .6s var(--ease) forwards; }
@@ -181,7 +202,7 @@ html[dir="rtl"] .env-card-sub{ font-family:var(--hebrew); font-weight:500; font-
 /* seal-break particle burst (filled by JS) */
 .seal-burst{ position:absolute; left:50%; top:54%; width:0; height:0; transform:translateZ(18px); }
 .burst-bit{ position:absolute; left:0; top:0; border-radius:50%;
-  background:radial-gradient(circle,#eebcbd,#9c5f63); opacity:0; }
+  background:radial-gradient(circle,#d8b486,#7a4d2f); opacity:0; }
 .envelope-scene.is-breaking .burst-bit{ animation:burst .66s ease-out forwards; }
 @keyframes burst{
   0%{ transform:translate(-50%,-50%) scale(.6); opacity:1 }
@@ -240,13 +261,17 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
 .card{
   position:relative;
   width:min(92vw,420px);
-  padding:clamp(34px,7vw,46px) clamp(26px,6vw,38px) clamp(30px,6vw,42px);
-  background:
-    linear-gradient(168deg,#f4e0e0 0%,#eed3d4 52%,#e7c9ca 100%);
-  border-radius:6px;
-  box-shadow:0 30px 60px -20px rgba(120,70,72,.42), 0 2px 10px rgba(120,70,72,.14);
+  padding:clamp(36px,7vw,48px) clamp(28px,6vw,40px) clamp(32px,6vw,44px);
+  background:transparent;
+  box-shadow:0 30px 60px -20px rgba(110,90,55,.4), 0 2px 10px rgba(110,90,55,.16);
   text-align:center;
   isolation:isolate;
+}
+/* deckled handmade-paper layer (filtered) — text & frame stay crisp above it */
+.card::before{
+  content:""; position:absolute; inset:0; z-index:-1; border-radius:3px;
+  background:linear-gradient(168deg,#f8f1de 0%,#f1e7ce 52%,#e9dbba 100%);
+  filter:url(#deckle);
 }
 /* paper grain */
 .card::after{
@@ -293,10 +318,24 @@ html[dir="rtl"] .overline{ letter-spacing:.18em; text-indent:0; }
 .names [hidden]{ display:none !important; }
 
 .date-line{
-  margin:6px 0 24px; font-size:clamp(13px,3.6vw,16px);
-  letter-spacing:.34em; text-indent:.34em; text-transform:uppercase; color:var(--ink-soft);
+  margin:10px 0 24px; font-size:clamp(13px,3.6vw,16px);
+  letter-spacing:.28em; text-indent:.28em; text-transform:uppercase; color:var(--gold);
 }
-html[dir="rtl"] .date-line{ letter-spacing:.06em; text-indent:0; font-size:clamp(16px,4.6vw,20px); }
+html[dir="rtl"] .date-line{ letter-spacing:.04em; text-indent:0; font-size:clamp(15px,4.2vw,18px); }
+
+/* בס״ד mark, top corner of the card */
+.bsd{ position:absolute; top:15px; inset-inline-start:18px; z-index:2;
+  font-family:var(--hebrew); font-size:12px; color:var(--ink-faint); letter-spacing:.03em; }
+
+/* invitation lines beneath the names */
+.invite-line{ margin:3px 0; font-family:var(--hebrew); line-height:1.55;
+  font-size:clamp(14px,3.9vw,17px); color:var(--ink-soft); }
+.invite-line:first-of-type{ margin-top:8px; }
+html[dir="ltr"] .invite-line{ font-family:var(--serif); font-style:italic; font-size:clamp(15px,4vw,18px); }
+
+/* hairline gold rule helper */
+.hr-gold{ width:54px; height:1px; margin:14px auto; border:none;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent); }
 
 /* ----- reveal circle / scratch ----- */
 .reveal-wrap{ display:flex; flex-direction:column; align-items:center; gap:12px; }
@@ -392,6 +431,27 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
 
 
 /* =================================================================
+   ACT 2.5 — AGNON QUOTE (oval vellum)
+   ================================================================= */
+.quote-sec{ padding:clamp(40px,8vh,80px) 22px; display:flex; justify-content:center; }
+.quote-oval{ position:relative; margin:0; width:min(86vw,360px); text-align:center;
+  padding:clamp(48px,11vw,68px) clamp(30px,8vw,46px);
+  background:radial-gradient(120% 100% at 50% 38%,#f8f1de,#efe4c9);
+  border-radius:50% / 44%;
+  box-shadow:0 22px 48px -24px rgba(110,90,55,.5);
+}
+.quote-oval::before{ content:""; position:absolute; inset:9px; border:1px solid var(--line-soft);
+  border-radius:50% / 44%; pointer-events:none; }
+.quote-orn{ display:block; color:var(--gold); font-size:15px; margin-bottom:16px; }
+.quote-text{ margin:0; font-family:var(--hebrew); color:var(--ink); font-weight:400;
+  font-size:clamp(15px,4.3vw,18px); line-height:2.05; }
+html[dir="ltr"] .quote-text{ font-family:var(--serif); font-style:italic; line-height:1.75;
+  font-size:clamp(16px,4.4vw,19px); }
+.quote-author{ margin-top:20px; font-size:12px; letter-spacing:.16em; color:var(--ink-soft); }
+html[dir="rtl"] .quote-author{ letter-spacing:.04em; font-family:var(--hebrew); }
+
+
+/* =================================================================
    ACT 3 — DETAILS
    ================================================================= */
 .details{ padding:clamp(40px,8vh,80px) 20px 0; }
@@ -403,8 +463,8 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
 .details-photo img{ display:block; width:100%; height:auto; }
 
 .details-card{ position:relative; text-align:center;
-  background:linear-gradient(168deg,#f4e0e0,#e9cfd0);
-  border:1px solid var(--line-soft); border-radius:6px;
+  background:linear-gradient(168deg,#f8f1de,#ece0c4);
+  border:1px solid var(--line-soft); border-radius:4px;
   padding:clamp(28px,6vw,42px) clamp(24px,5vw,38px);
   box-shadow:0 18px 40px -22px rgba(120,70,72,.4); }
 .details-card .ornament{ margin-bottom:6px; }
@@ -426,9 +486,9 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
   font-size:13px; letter-spacing:.16em; text-transform:uppercase; cursor:pointer;
   padding:13px 22px; border-radius:40px; transition:transform .2s var(--ease), box-shadow .2s, background .2s; }
 .btn:active{ transform:translateY(1px); }
-.btn-primary{ background:linear-gradient(135deg,#c98f8f,#a96a6e); color:#fff7f5;
-  box-shadow:0 10px 22px -8px rgba(150,80,85,.6); }
-.btn-primary:hover{ box-shadow:0 12px 26px -8px rgba(150,80,85,.7); }
+.btn-primary{ background:linear-gradient(135deg,#b3914f,#8f6f33); color:#fdf7e8;
+  box-shadow:0 10px 22px -8px rgba(120,95,45,.55); }
+.btn-primary:hover{ box-shadow:0 12px 26px -8px rgba(120,95,45,.7); }
 .btn-ghost{ background:rgba(255,255,255,.4); color:var(--ink);
   border:1px solid var(--line-soft); }
 .btn-ghost:hover{ background:rgba(255,255,255,.7); }

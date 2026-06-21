@@ -9,9 +9,9 @@
 const CONFIG = {
   names: { en: 'Eden & Gad', he: 'עדן & גד' },
 
-  /* The wedding: Motzaei Shabbat (after Shabbat) · 12 Av 5786 · 26 July 2026.
-     Time is an estimate — confirm the ceremony start time with the couple. */
-  dateISO: '2026-07-26T20:30:00+03:00',   // Israel time (UTC+3, summer)
+  /* The wedding: Sunday · 12 Av 5786 · 26 July 2026.
+     Reception 19:00, Chuppah & Kiddushin 20:00 (Israel time). */
+  dateISO: '2026-07-26T20:00:00+03:00',   // chuppah, Israel time (UTC+3, summer)
 
   /* RSVP — set the WhatsApp number in international format, no "+" / spaces.
      e.g. '972501234567'.  Leave empty to hide the RSVP button. */
@@ -19,8 +19,8 @@ const CONFIG = {
 
   /* Calendar event */
   cal: {
-    title: 'Eden & Gad — Wedding',
-    location: '',                         // add venue when known
+    title: 'החתונה של עדן וגד · Eden & Gad Wedding',
+    location: 'אולמי אלכסנדר, המסילה 2, עמק חפר',   // verify exact venue/address
     durationHours: 5,
   },
 };
@@ -30,43 +30,55 @@ const I18N = {
     tapOpen: 'Tap to open',
     stdMini: 'SAVE THE DATE',
     namesMini: 'Eden & Gad',
-    overline: 'We are getting married',
-    dateLabel: '26 July 2026',
+    overline: 'With joy, we invite you to celebrate',
+    invite2: 'the happiest day of our lives,',
+    invite3: 'with God’s blessing, on Sunday',
+    dateLabel: '12 Av 5786 · 26.07.2026',
     scratchHint: 'Scratch to reveal',
     cdDays: 'days', cdHours: 'hours', cdMins: 'mins', cdSecs: 'secs',
-    scrollMore: 'With love, scroll for more',
+    scrollMore: 'Scroll for more',
+    quote: 'And it seemed to me that the land I walked upon, and the streets I passed through, and the whole world entire — are but a corridor leading to this house.',
+    quoteAuthor: 'S. Y. Agnon',
     storyTitle: 'Our story, in light',
-    storyText: "From the first golden hour by the sea to a yes that changed everything — we can't wait to celebrate the next chapter with you.",
-    detailsTitle: 'Save our date',
-    whenLabel: 'When', whereLabel: 'Where',
-    whenValue: 'Motzaei Shabbat · 26 July 2026',
-    whenSub: '12 Av 5786 · after Shabbat ends',
-    whereValue: 'Venue to be announced',
-    whereSub: 'Full details to follow with the invitation',
+    storyText: 'From the first golden hour by the sea to a “yes” that changed everything — we can’t wait to celebrate the next chapter with you.',
+    detailsTitle: 'We would love to see you',
+    whenLabel: 'When', schedLabel: 'Schedule', whereLabel: 'Where',
+    whenValue: 'Sunday · 26 July 2026',
+    whenSub: '12 Av 5786',
+    schedValue: 'Reception 19:00',
+    schedSub: 'Chuppah & Kiddushin 20:00',
+    whereValue: 'Alexander Halls',
+    whereSub: 'HaMesila 2, Emek Hefer',
     addCal: 'Add to calendar',
     rsvp: 'RSVP on WhatsApp',
-    footer: 'Made with love · 26.07.2026',
+    footer: 'We can’t wait to see you · 26.07.2026',
   },
   he: {
     tapOpen: 'הקליקו לפתיחה',
     stdMini: 'שמרו את התאריך',
     namesMini: 'עדן & גד',
-    overline: 'אנחנו מתחתנים',
-    dateLabel: 'י״ב באב התשפ״ו',
+    overline: 'נרגשים להזמינכם לחגוג עימנו',
+    invite2: 'את היום המאושר בחיינו,',
+    invite3: 'שיתקיים בעזרת ה׳ ביום ראשון',
+    dateLabel: 'י״ב באב התשפ״ו · 26.07.2026',
     scratchHint: 'גרדו כדי לחשוף',
     cdDays: 'ימים', cdHours: 'שעות', cdMins: 'דקות', cdSecs: 'שניות',
-    scrollMore: 'באהבה, גללו להמשך',
+    scrollMore: 'גללו להמשך',
+    quote: 'וְדוֹמֶה הָיָה לִי שֶׁהָאָרֶץ שֶׁהָלַכְתִּי עָלֶיהָ וְהָרְחוֹבוֹת שֶׁעָבַרְתִּי בָּהֶם וְכָל הָעוֹלָם כֻּלּוֹ, אֵינָם אֶלָּא פְּרוֹזְדוֹר לְבַיִת זֶה.',
+    quoteAuthor: 'ש״י עגנון',
     storyTitle: 'הסיפור שלנו, באור',
     storyText: 'משעת הזהב הראשונה מול הים ועד ה״כן״ ששינה הכול — אנחנו לא יכולים לחכות לחגוג איתכם את הפרק הבא.',
-    detailsTitle: 'שמרו את התאריך',
-    whenLabel: 'מתי', whereLabel: 'איפה',
-    whenValue: 'מוצאי שבת · 26.07.2026',
-    whenSub: 'י״ב באב התשפ״ו · בצאת השבת',
-    whereValue: 'המקום ייחשף בקרוב',
-    whereSub: 'כל הפרטים יגיעו עם ההזמנה',
+    detailsTitle: 'נשמח לראותכם',
+    whenLabel: 'מתי', schedLabel: 'לוח זמנים', whereLabel: 'איפה',
+    whenValue: 'יום ראשון · 26 ביולי 2026',
+    whenSub: 'י״ב באב התשפ״ו',
+    schedValue: 'קבלת פנים 19:00',
+    schedSub: 'חופה וקידושין 20:00',
+    whereValue: 'אולמי אלכסנדר',
+    whereSub: 'המסילה 2, עמק חפר',
     addCal: 'הוספה ליומן',
     rsvp: 'אישור הגעה בוואטסאפ',
-    footer: 'נעשה באהבה · 26.07.2026',
+    footer: 'נשמח לראותכם · 26.07.2026',
   },
 };
 
@@ -151,18 +163,18 @@ function openEnvelope() {
   scene.classList.add('is-breaking');
   chime(392, 0.14);
 
-  // 2. flap unfolds, then (a beat later) the card eases out of the pocket
+  // 2. the flap folds up into the Temple pyramid (the reveal)
   setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 320);
-  setTimeout(() => chime(659.25, 0.15), 900);   // chime as the flap settles
-  setTimeout(() => chime(783.99, 0.16), 1500);  // chime as the card rises
+  setTimeout(() => chime(659.25, 0.15), 1100);  // chime as it passes edge-on
+  setTimeout(() => chime(783.99, 0.16), 1900);  // chime as the pyramid settles
 
-  // 3. let the risen card settle for a beat, then gently lift away & hand off
-  setTimeout(() => scene.classList.add('dismiss'), 2750);
+  // 3. hold the Temple pyramid for a beat, then gently lift away & hand off
+  setTimeout(() => scene.classList.add('dismiss'), 3000);
   setTimeout(() => {
     document.body.classList.remove('locked');
     scene.style.display = 'none';
     armScratch();
-  }, 3550);
+  }, 3800);
 }
 
 scene.addEventListener('click', openEnvelope);
@@ -270,26 +282,28 @@ function armScratch() {
 window.addEventListener('resize', () => { if (!revealed && !scratching) setupFoil(); });
 
 function paintFoil(w, h) {
-  // metallic blush foil
+  // gilded cream / kraft foil
   const g = ctx.createLinearGradient(0, 0, w, h);
-  g.addColorStop(0,   '#e9cccd');
-  g.addColorStop(0.45,'#f2dada');
-  g.addColorStop(0.5, '#fbeeee');
-  g.addColorStop(0.55,'#f2dada');
-  g.addColorStop(1,   '#d9b6b8');
+  g.addColorStop(0,   '#dcc9a4');
+  g.addColorStop(0.45,'#ece0c2');
+  g.addColorStop(0.5, '#f6efdb');
+  g.addColorStop(0.55,'#ece0c2');
+  g.addColorStop(1,   '#cdba93');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, w, h);
 
-  // speckle texture
+  // warm speckle texture
   for (let i = 0; i < (w * h) / 90; i++) {
-    ctx.fillStyle = `rgba(${Math.random() > .5 ? 255 : 150},${Math.random()*60+120|0},${Math.random()*60+120|0},${Math.random()*0.12})`;
+    ctx.fillStyle = Math.random() > 0.5
+      ? `rgba(250,240,210,${Math.random() * 0.14})`
+      : `rgba(150,120,70,${Math.random() * 0.10})`;
     ctx.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5);
   }
-  // subtle ring + sparkle glyphs
-  ctx.strokeStyle = 'rgba(150,100,100,.30)';
+  // subtle ring + sparkle glyph
+  ctx.strokeStyle = 'rgba(150,120,70,.32)';
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.arc(w/2, h/2, Math.min(w,h)/2 - 10, 0, Math.PI*2); ctx.stroke();
-  ctx.fillStyle = 'rgba(150,105,105,.45)';
+  ctx.fillStyle = 'rgba(150,120,70,.45)';
   ctx.font = `${Math.round(w*0.13)}px serif`;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText('✶', w*0.5, h*0.5);
