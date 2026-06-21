@@ -27,6 +27,7 @@ const CONFIG = {
 
 const I18N = {
   en: {
+    enterHint: 'Tap to enter',
     tapOpen: 'Tap to open',
     stdMini: 'SAVE THE DATE',
     namesMini: 'Eden & Gad',
@@ -55,6 +56,7 @@ const I18N = {
     footer: 'We can’t wait to see you · 26.07.2026',
   },
   he: {
+    enterHint: 'הקליקו לכניסה',
     tapOpen: 'הקליקו לפתיחה',
     stdMini: 'שמרו את התאריך',
     namesMini: 'עדן & גד',
@@ -150,6 +152,24 @@ function sparkleChime() {
 /* =================================================================
    ACT 0 — ENVELOPE
    ================================================================= */
+/* --- ACT −1: the gate parts to the sides, revealing the envelope --- */
+const gate = $('#gate');
+let gateOpened = false;
+function openGate() {
+  if (gateOpened) return;
+  gateOpened = true;
+  gate.classList.add('open');
+  chime(329.63, 0.13); setTimeout(() => chime(440, 0.13), 220);
+  setTimeout(() => gate.classList.add('gone'), 1350);
+  setTimeout(() => { gate.style.display = 'none'; }, 1950);
+}
+if (gate) {
+  gate.addEventListener('click', openGate);
+  gate.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openGate(); }
+  });
+}
+
 const scene = $('#envelope-scene');
 const env3d = $('#envelope3d');
 let opened = false;

@@ -59,6 +59,62 @@ body.locked{ overflow:hidden; height:100vh; }
 
 
 /* =================================================================
+   ACT −1 — THE GATE  (split doors opening to the sides)
+   ================================================================= */
+.gate{
+  position:fixed; inset:0; z-index:120; display:flex; direction:ltr;
+  perspective:1700px; cursor:pointer; overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  --gw:170vw;            /* zoom: gate display width (height = 1.5×); bigger = more crop of the flowers */
+  --gy:52%;              /* vertical focus point */
+  transition:opacity .55s var(--ease), visibility .55s;
+}
+.gate.gone{ opacity:0; visibility:hidden; pointer-events:none; }
+
+.gate-half{
+  position:relative; width:50vw; height:100vh; overflow:hidden;
+  background:linear-gradient(135deg,#efe6d2,#e2d4b8);
+  transition:transform 1.4s cubic-bezier(.62,.03,.2,1);
+  backface-visibility:hidden; will-change:transform;
+}
+.gate-left{ transform-origin:left center; }
+.gate-right{ transform-origin:right center; }
+.gate-art{
+  position:absolute; top:var(--gy); width:var(--gw); height:calc(var(--gw) * 1.5);
+  background:url("../img/gate.webp") center / 100% 100% no-repeat;
+}
+.gate-left  .gate-art{ right:0; transform:translate(50%,-50%); }
+.gate-right .gate-art{ left:0;  transform:translate(-50%,-50%); }
+
+/* seam shadow where the two doors meet */
+.gate-seam{ position:absolute; top:0; bottom:0; left:50%; width:26px; transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,rgba(80,60,35,.2),transparent);
+  transition:opacity .4s var(--ease); pointer-events:none; }
+.gate.open .gate-seam{ opacity:0; }
+
+/* open: the two halves part and slide off to the sides, revealing the
+   envelope behind. */
+.gate.open .gate-left{  transform:translateX(-100%); }
+.gate.open .gate-right{ transform:translateX(100%); }
+
+.gate-hint{
+  position:absolute; left:0; right:0; bottom:clamp(46px,11vh,92px); z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:9px; pointer-events:none;
+  color:var(--ink); font-family:var(--hebrew); font-size:15px; letter-spacing:.16em;
+  text-shadow:0 1px 7px rgba(255,250,235,.8); transition:opacity .35s var(--ease);
+}
+html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text-transform:uppercase; font-size:14px; }
+.gate.open .gate-hint{ opacity:0; }
+.gate-chevs{ display:flex; gap:20px; }
+.gate-chevs svg{ width:20px; height:20px; fill:none; stroke:var(--ink-soft);
+  stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.gate-chevs svg:first-child{ animation:nudgeL 1.9s var(--ease) infinite; }
+.gate-chevs svg:last-child{ animation:nudgeR 1.9s var(--ease) infinite; }
+@keyframes nudgeL{ 0%,100%{ transform:translateX(0); opacity:.55 } 50%{ transform:translateX(-5px); opacity:1 } }
+@keyframes nudgeR{ 0%,100%{ transform:translateX(0); opacity:.55 } 50%{ transform:translateX(5px); opacity:1 } }
+
+
+/* =================================================================
    ACT 0 — ENVELOPE  (cinematic 3D open)
    ================================================================= */
 .envelope-scene{
