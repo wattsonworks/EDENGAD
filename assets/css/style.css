@@ -38,20 +38,17 @@ body{
   margin:0;
   font-family:var(--serif);
   color:var(--ink);
-  background:
-    radial-gradient(130% 85% at 50% -8%, var(--rose-0) 0%, var(--rose-1) 40%, var(--rose-2) 74%, var(--rose-3) 100%);
-  background-attachment:fixed;
+  background:#ece3cf;
   min-height:100vh;
   overflow-x:hidden;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
 }
-/* faint paper grain over everything */
-body::before{
-  content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
-  mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42  0 0 0 0 0.36  0 0 0 0 0.24  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* composited fixed fabric background (cheaper than background-attachment:fixed) */
+.page-bg{ position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:#ece3cf url("../img/bg.jpg") center top / cover no-repeat; }
+.page-bg::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(243,236,221,.30), rgba(243,236,221,.5)); }
 
 html[dir="rtl"] body{ font-family:var(--hebrew); }
 
@@ -68,8 +65,7 @@ body.locked{ overflow:hidden; height:100vh; }
   position:fixed; inset:0; z-index:100;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:clamp(34px,7vh,60px);
-  background:
-    radial-gradient(130% 90% at 50% 16%, var(--rose-0) 0%, var(--rose-1) 44%, var(--rose-2) 76%, var(--rose-3) 100%);
+  background:#ece3cf url("../img/bg.jpg") center top / cover no-repeat;
   cursor:pointer; overflow:hidden;
   -webkit-tap-highlight-color:transparent;
   transition:opacity .8s var(--ease), visibility .8s;
@@ -176,10 +172,12 @@ html[dir="rtl"] .env-card-sub{ font-family:var(--hebrew); font-weight:500; font-
 /* inside: the Temple liner, authored as an UPWARD triangle so it reads as a
    pyramid once the flap is flipped over. */
 .flap-in{ clip-path:polygon(0 100%,100% 100%,50% 0);
-  transform:rotateX(180deg); background:#e3d7bc;
+  transform:rotateX(180deg);
+  /* soft sky tone behind the temple's transparent sky */
+  background:linear-gradient(180deg,#e9e0cb 0%,#e3d7bc 55%,#d8caac 100%);
   box-shadow:inset 0 0 0 1px rgba(150,120,70,.28); }
 .flap-liner{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; object-position:center 64%; }
+  object-fit:cover; object-position:center 38%; }
 .flap-mono{ margin-top:7%; font-family:var(--hebrew); font-size:clamp(17px,5.4vw,25px);
   color:var(--ink); letter-spacing:.04em; text-shadow:0 1px 0 rgba(255,250,240,.5); }
 /* open: fold fully over the top into the upward pyramid */
@@ -253,10 +251,24 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
 
 .card-scene{
   min-height:100svh;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:clamp(64px,12vh,110px) 18px clamp(40px,8vh,70px);
-  gap:26px;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:clamp(84px,15vh,140px) 18px clamp(44px,8vh,72px);
+  gap:clamp(30px,6vh,52px);
 }
+
+/* the real invitation note, resting on the fabric */
+.note-paper{ margin:0; width:min(86vw,400px);
+  filter:drop-shadow(0 24px 44px rgba(90,70,40,.36));
+  animation:noteFloat 7s ease-in-out infinite; }
+.note-img{ display:block; width:100%; height:auto; border-radius:2px; }
+@keyframes noteFloat{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-7px) } }
+
+/* keepsake (scratch + countdown) beneath the note */
+.keepsake{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+.keepsake-label{ margin:0; font-family:var(--hebrew); font-size:13px;
+  letter-spacing:.22em; text-indent:.22em; color:var(--ink-soft); }
+html[dir="ltr"] .keepsake-label{ font-family:var(--serif); font-style:italic;
+  letter-spacing:.1em; text-indent:0; }
 
 .card{
   position:relative;

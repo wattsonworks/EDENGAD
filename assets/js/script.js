@@ -34,6 +34,7 @@ const I18N = {
     invite2: 'the happiest day of our lives,',
     invite3: 'with God’s blessing, on Sunday',
     dateLabel: '12 Av 5786 · 26.07.2026',
+    revealLabel: 'A moment with us',
     scratchHint: 'Scratch to reveal',
     cdDays: 'days', cdHours: 'hours', cdMins: 'mins', cdSecs: 'secs',
     scrollMore: 'Scroll for more',
@@ -61,6 +62,7 @@ const I18N = {
     invite2: 'את היום המאושר בחיינו,',
     invite3: 'שיתקיים בעזרת ה׳ ביום ראשון',
     dateLabel: 'י״ב באב התשפ״ו · 26.07.2026',
+    revealLabel: 'רגע איתנו',
     scratchHint: 'גרדו כדי לחשוף',
     cdDays: 'ימים', cdHours: 'שעות', cdMins: 'דקות', cdSecs: 'שניות',
     scrollMore: 'גללו להמשך',
@@ -100,9 +102,10 @@ function setLang(lang) {
     if (dict[key] != null) el.textContent = dict[key];
   });
 
-  // names swap (script font for EN, hebrew serif for HE)
-  $('.name-en').hidden = lang === 'he';
-  $('.name-he').hidden = lang !== 'he';
+  // names swap (only if the inline names exist)
+  const nEn = $('.name-en'), nHe = $('.name-he');
+  if (nEn) nEn.hidden = lang === 'he';
+  if (nHe) nHe.hidden = lang !== 'he';
 
   $$('.lang-btn').forEach(b => b.classList.toggle('is-active', b.dataset.lang === lang));
   buildActionLinks();

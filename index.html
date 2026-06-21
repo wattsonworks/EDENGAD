@@ -26,6 +26,8 @@
 </head>
 <body>
 
+<div class="page-bg" aria-hidden="true"></div>
+
 <!-- SVG filters: deckled handmade-paper edge -->
 <svg width="0" height="0" aria-hidden="true" style="position:absolute">
   <filter id="deckle">
@@ -62,7 +64,7 @@
       <div class="env-flap-pivot" aria-hidden="true">
         <div class="env-flap">
           <span class="flap-face flap-out"><span class="flap-mono">עדן &amp; גד</span></span>
-          <span class="flap-face flap-in"><img class="flap-liner" src="assets/img/temple.svg" alt="" /></span>
+          <span class="flap-face flap-in"><img class="flap-liner" src="assets/img/temple.webp" alt="" /></span>
         </div>
       </div>
 
@@ -104,41 +106,19 @@
 <!-- ============================================================= -->
 <main id="main" class="stage">
   <section class="card-scene">
-    <article class="card" id="card">
-      <span class="bsd">בס״ד</span>
-      <!-- decorative frame -->
-      <span class="frame frame-1" aria-hidden="true"></span>
-      <span class="frame frame-2" aria-hidden="true"></span>
-      <span class="corner c-tl" aria-hidden="true"></span>
-      <span class="corner c-tr" aria-hidden="true"></span>
-      <span class="corner c-bl" aria-hidden="true"></span>
-      <span class="corner c-br" aria-hidden="true"></span>
+    <!-- the real invitation note, resting on the fabric -->
+    <figure class="note-paper reveal-on-scroll" id="card">
+      <img class="note-img" src="assets/img/note.jpg"
+           alt="הזמנה לחתונה של עדן וגד — נרגשים להזמינכם לחגוג עימנו את היום המאושר בחיינו, יום ראשון י״ב באב התשפ״ו, 26.07.2026" />
+    </figure>
 
-      <div class="ornament" aria-hidden="true">
-        <svg viewBox="0 0 80 30">
-          <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-            <path d="M40 6 v18 M31 24 q9 -6 18 0 M34 14 q6 -5 12 0"/>
-            <path d="M40 4 l1.4 3 3 1.4 -3 1.4 -1.4 3 -1.4 -3 -3 -1.4 3 -1.4z" fill="currentColor" stroke="none"/>
-          </g>
-        </svg>
-      </div>
-
-      <p class="overline" data-i18n="overline">נרגשים להזמינכם לחגוג עימנו</p>
-
-      <h1 class="names">
-        <span class="name-en" hidden>Eden <span class="amp">&amp;</span> Gad</span>
-        <span class="name-he">עדן <span class="amp">&amp;</span> גד</span>
-      </h1>
-
-      <p class="invite-line" data-i18n="invite2">את היום המאושר בחיינו,</p>
-      <p class="invite-line" data-i18n="invite3">שיתקיים בעזרת ה׳ ביום ראשון</p>
-      <p class="date-line" data-i18n="dateLabel">י״ב באב התשפ״ו · 26.07.2026</p>
-
-      <!-- scratch reveal -->
+    <!-- scratch-to-reveal keepsake + live countdown beneath the note -->
+    <div class="keepsake">
+      <p class="keepsake-label" data-i18n="revealLabel">רגע איתנו</p>
       <div class="reveal-wrap">
         <figure class="reveal-circle" id="revealCircle">
           <img class="reveal-img" src="assets/img/reveal.jpg"
-               alt="Eden and Gad embracing on the beach" draggable="false" />
+               alt="עדן וגד מחבקים על שפת הים" draggable="false" />
           <div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
           <canvas class="scratch" id="scratch" aria-hidden="true"></canvas>
         </figure>
@@ -150,7 +130,6 @@
         </p>
       </div>
 
-      <!-- countdown (revealed after scratch) -->
       <div class="countdown" id="countdown" aria-live="polite">
         <div class="cd-item"><span class="cd-num" data-cd="days">0</span><span class="cd-lbl" data-i18n="cdDays">days</span></div>
         <span class="cd-sep">·</span>
@@ -160,7 +139,7 @@
         <span class="cd-sep">·</span>
         <div class="cd-item"><span class="cd-num" data-cd="secs">0</span><span class="cd-lbl" data-i18n="cdSecs">secs</span></div>
       </div>
-    </article>
+    </div>
 
     <button type="button" class="scroll-cue" id="scrollCue" hidden>
       <span data-i18n="scrollMore">With love, scroll for more</span>
@@ -187,7 +166,9 @@
       <figure class="g-item reveal-on-scroll"><img src="assets/img/g1.jpg" alt="Eden and Gad at sunset" loading="lazy" /></figure>
       <figure class="g-item reveal-on-scroll"><img src="assets/img/g2.jpg" alt="A tender moment" loading="lazy" /></figure>
       <figure class="g-item reveal-on-scroll"><img src="assets/img/g3.jpg" alt="Walking the shore" loading="lazy" /></figure>
+      <figure class="g-item reveal-on-scroll"><img src="assets/img/g8.jpg" alt="A tender moment at sunset" loading="lazy" /></figure>
       <figure class="g-item reveal-on-scroll"><img src="assets/img/g4.jpg" alt="Together by the sea" loading="lazy" /></figure>
+      <figure class="g-item reveal-on-scroll"><img src="assets/img/g7.jpg" alt="Walking the shore at golden hour" loading="lazy" /></figure>
       <figure class="g-item reveal-on-scroll"><img src="assets/img/g5.jpg" alt="Laughing in the dunes" loading="lazy" /></figure>
     </div>
   </section>
