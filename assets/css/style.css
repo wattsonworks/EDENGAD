@@ -73,7 +73,6 @@ body.locked{ overflow:hidden; height:100vh; }
 
 .gate-half{
   position:relative; width:50vw; height:100vh; overflow:hidden;
-  background:linear-gradient(135deg,#efe6d2,#e2d4b8);
   transition:transform 1.4s cubic-bezier(.62,.03,.2,1);
   backface-visibility:hidden; will-change:transform;
 }
