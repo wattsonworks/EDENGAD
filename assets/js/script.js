@@ -136,26 +136,97 @@ function sparkleChime() {
    ACT 0 — ENVELOPE
    ================================================================= */
 const scene = $('#envelope-scene');
+const env3d = $('#envelope3d');
 let opened = false;
 
+/* --- cinematic open sequence: seal breaks → flap unfolds → card rises → fly-in --- */
 function openEnvelope() {
   if (opened) return;
   opened = true;
-  scene.classList.add('is-open');
   document.body.classList.add('opened');
-  chime(523.25, 0.16); setTimeout(() => chime(783.99, 0.16), 160);
+  stopParallax();
 
+  // 1. seal cracks + bursts
+  spawnSealBurst();
+  scene.classList.add('is-breaking');
+  chime(392, 0.14);
+
+  // 2. flap unfolds + card rises
+  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 240);
+  setTimeout(() => chime(783.99, 0.16), 760);
+
+  // 3. envelope flies toward the viewer & fades, revealing the card scene beneath
+  setTimeout(() => scene.classList.add('dismiss'), 1280);
   setTimeout(() => {
     document.body.classList.remove('locked');
     scene.style.display = 'none';
-    initScratch();          // arm the scratch card once the stage is visible
-  }, 1500);
+    armScratch();
+  }, 1950);
 }
 
 scene.addEventListener('click', openEnvelope);
 scene.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
 });
+
+/* seal-break particles */
+function spawnSealBurst() {
+  const host = $('#sealBurst');
+  if (!host || prefersReduced) return;
+  for (let i = 0; i < 11; i++) {
+    const b = document.createElement('span');
+    b.className = 'burst-bit';
+    const ang = (Math.PI * 2 * i / 11) + Math.random() * 0.5;
+    const dist = 22 + Math.random() * 28;
+    const sz = 4 + Math.random() * 4;
+    b.style.width = b.style.height = sz.toFixed(1) + 'px';
+    b.style.setProperty('--bx', (Math.cos(ang) * dist).toFixed(1) + 'px');
+    b.style.setProperty('--by', (Math.sin(ang) * dist).toFixed(1) + 'px');
+    host.appendChild(b);
+  }
+}
+
+/* ambient floating petals / sparkles behind the envelope */
+function spawnPetals() {
+  const host = $('#petals');
+  if (!host || prefersReduced) return;
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('span');
+    const star = Math.random() > 0.5;
+    p.className = 'petal ' + (star ? 'star' : 'dot');
+    const size = star ? (9 + Math.random() * 8) : (4 + Math.random() * 7);
+    if (star) { p.textContent = '✦'; p.style.fontSize = size + 'px'; }
+    else { p.style.width = p.style.height = size + 'px'; }
+    p.style.left = (Math.random() * 100) + '%';
+    p.style.setProperty('--op', (0.4 + Math.random() * 0.5).toFixed(2));
+    p.style.setProperty('--sway', ((Math.random() * 2 - 1) * 44).toFixed(0) + 'px');
+    p.style.setProperty('--spin', ((Math.random() * 2 - 1) * 230).toFixed(0) + 'deg');
+    p.style.animation = `floatUp ${(9 + Math.random() * 9).toFixed(1)}s linear ${(-Math.random() * 16).toFixed(1)}s infinite`;
+    host.appendChild(p);
+  }
+}
+
+/* subtle 3D parallax tilt of the envelope (mouse + device tilt) before it opens */
+let parallaxOn = true;
+function setTilt(rx, ry) {
+  if (!parallaxOn || !env3d) return;
+  env3d.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+  env3d.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+}
+function stopParallax() {
+  parallaxOn = false;
+  if (env3d) { env3d.style.setProperty('--rx', '0deg'); env3d.style.setProperty('--ry', '0deg'); }
+}
+if (!prefersReduced) {
+  window.addEventListener('mousemove', e => {
+    const cx = innerWidth / 2, cy = innerHeight / 2;
+    setTilt(((e.clientY - cy) / cy) * -6, ((e.clientX - cx) / cx) * 7);
+  });
+  window.addEventListener('deviceorientation', e => {
+    setTilt(Math.max(-8, Math.min(8, ((e.beta || 0) - 40) * -0.18)),
+            Math.max(-8, Math.min(8, (e.gamma || 0) * 0.4)));
+  });
+}
 
 
 /* =================================================================
@@ -165,27 +236,37 @@ const circle   = $('#revealCircle');
 const canvas   = $('#scratch');
 const hint     = $('#scratchHint');
 const sparkLay = $('#sparkleLayer');
-let ctx, scratching = false, lastPt = null, revealed = false, scratchArmed = false;
+let ctx, scratching = false, lastPt = null, revealed = false, scratchArmed = false, foilReady = false;
 
-function initScratch() {
-  if (scratchArmed) return;
-  scratchArmed = true;
-
-  if (prefersReduced) { finishReveal(); return; }   // skip the manual scratch
-
+/* Paint the foil immediately at boot (behind the closed envelope) so the photo
+   can never flash uncovered while the canvas is still being prepared. */
+function setupFoil() {
+  if (prefersReduced || revealed) return;
   const dpr  = Math.min(window.devicePixelRatio || 1, 2.5);
   const rect = circle.getBoundingClientRect();
   const w = Math.round(rect.width), h = Math.round(rect.height);
+  if (!w || !h) return;
   canvas.width = w * dpr; canvas.height = h * dpr;
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);   // setTransform (not scale) so repaints don't compound
   paintFoil(w, h);
+  foilReady = true;
+}
 
+/* Attach the scratch listeners once the envelope is open and the card is live. */
+function armScratch() {
+  if (scratchArmed) return;
+  scratchArmed = true;
+  if (prefersReduced) { finishReveal(); return; }   // skip the manual scratch
+  if (!foilReady) setupFoil();
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
   window.addEventListener('pointerup', onUp);
 }
+
+/* Keep the foil sized to the circle if the viewport changes before reveal. */
+window.addEventListener('resize', () => { if (!revealed && !scratching) setupFoil(); });
 
 function paintFoil(w, h) {
   // metallic blush foil
@@ -263,7 +344,7 @@ function scratchedRatio() {
 // live finish check while dragging (throttled)
 canvas?.addEventListener('pointermove', () => {
   const now = performance.now();
-  if (revealed || now - lastCheck < 220) return;
+  if (revealed || !ctx || now - lastCheck < 220) return;
   lastCheck = now;
   if (scratchedRatio() > 0.5) finishReveal();
 });
@@ -406,4 +487,9 @@ $$('.reveal-on-scroll').forEach(el => io.observe(el));
   try { lang = localStorage.getItem('eg_lang') || 'en'; } catch (e) {}
   setLang(lang);
   buildActionLinks();
+  spawnPetals();
+  // paint the foil now, behind the closed envelope, so the photo never flashes
+  setupFoil();
+  // re-paint once webfonts settle (the foil hint glyph uses a serif face)
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!revealed && !scratchArmed) setupFoil(); });
 })();

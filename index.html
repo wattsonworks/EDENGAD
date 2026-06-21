@@ -32,25 +32,36 @@
 <div id="envelope-scene" class="envelope-scene" role="button" tabindex="0"
      aria-label="Tap to open your invitation">
   <div class="ambient" aria-hidden="true"></div>
+  <div class="petals" id="petals" aria-hidden="true"></div>
 
-  <div class="envelope-wrap">
-    <div class="envelope">
+  <div class="envelope-stage">
+    <div class="envelope" id="envelope3d">
+      <div class="env-glow" aria-hidden="true"></div>
+
       <!-- the card that rises out of the pocket -->
       <div class="env-card">
         <span class="env-card-overline" data-i18n="stdMini">SAVE THE DATE</span>
         <span class="env-card-mono">E <span class="amp">&amp;</span> G</span>
         <span class="env-card-sub" data-i18n="namesMini">Eden &amp; Gad</span>
       </div>
+
       <!-- pocket -->
-      <div class="env-back"></div>
-      <div class="env-front"></div>
-      <!-- the opening flap with monogram + wax seal -->
-      <div class="env-flap">
-        <span class="flap-mono">E <span class="amp">&amp;</span> G</span>
+      <div class="env-back" aria-hidden="true"></div>
+      <div class="env-front" aria-hidden="true"><span class="env-sheen"></span></div>
+
+      <!-- the opening flap (two faces for a real 3D fold) -->
+      <div class="env-flap" aria-hidden="true">
+        <span class="flap-face flap-out"><span class="flap-mono">E <span class="amp">&amp;</span> G</span></span>
+        <span class="flap-face flap-in"></span>
       </div>
+
+      <!-- wax seal + break burst -->
       <div class="env-seal" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-7.5-9.4C4.5 8.4 6.6 6.5 9 6.5c1.5 0 2.6.8 3 1.6.4-.8 1.5-1.6 3-1.6 2.4 0 4.5 1.9 4.5 5.1C19.5 16.4 12 21 12 21z"/></svg>
       </div>
+      <div class="seal-burst" id="sealBurst" aria-hidden="true"></div>
+
+      <div class="env-shadow" aria-hidden="true"></div>
     </div>
   </div>
 
