@@ -159,9 +159,9 @@ function openGate() {
   if (gateOpened) return;
   gateOpened = true;
   gate.classList.add('open');
-  chime(329.63, 0.13); setTimeout(() => chime(440, 0.13), 220);
-  setTimeout(() => gate.classList.add('gone'), 1350);
-  setTimeout(() => { gate.style.display = 'none'; }, 1950);
+  chime(329.63, 0.13); setTimeout(() => chime(440, 0.13), 400); setTimeout(() => chime(587.33, 0.13), 1400);
+  setTimeout(() => gate.classList.add('gone'), 2300);
+  setTimeout(() => { gate.style.display = 'none'; }, 2850);
 }
 if (gate) {
   gate.addEventListener('click', openGate);

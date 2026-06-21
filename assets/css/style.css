@@ -73,8 +73,8 @@ body.locked{ overflow:hidden; height:100vh; }
 
 .gate-half{
   position:relative; width:50vw; height:100vh; overflow:hidden;
-  transition:transform 1.4s cubic-bezier(.62,.03,.2,1);
-  backface-visibility:hidden; will-change:transform;
+  transition:transform 2.3s cubic-bezier(.55,.06,.28,1);
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; will-change:transform;
 }
 .gate-left{ transform-origin:left center; }
 .gate-right{ transform-origin:right center; }
@@ -91,10 +91,10 @@ body.locked{ overflow:hidden; height:100vh; }
   transition:opacity .4s var(--ease); pointer-events:none; }
 .gate.open .gate-seam{ opacity:0; }
 
-/* open: the two halves part and slide off to the sides, revealing the
-   envelope behind. */
-.gate.open .gate-left{  transform:translateX(-100%); }
-.gate.open .gate-right{ transform:translateX(100%); }
+/* open: the two doors swing outward on their outer hinges — like saloon /
+   קלאפה doors — past edge-on the back face hides, revealing the envelope. */
+.gate.open .gate-left{  transform:rotateY(105deg); }
+.gate.open .gate-right{ transform:rotateY(-105deg); }
 
 .gate-hint{
   position:absolute; left:0; right:0; bottom:clamp(46px,11vh,92px); z-index:2;
@@ -310,12 +310,29 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
   gap:clamp(30px,6vh,52px);
 }
 
-/* the real invitation note, resting on the fabric */
-.note-paper{ margin:0; width:min(86vw,400px);
-  filter:drop-shadow(0 24px 44px rgba(90,70,40,.36));
+/* the invitation card: transparent blank paper + text written over it */
+.note-paper{ position:relative; margin:0; width:min(86vw,400px);
+  container-type:inline-size;
   animation:noteFloat 7s ease-in-out infinite; }
-.note-img{ display:block; width:100%; height:auto; border-radius:2px; }
+.note-card{ display:block; width:100%; height:auto;
+  filter:drop-shadow(0 22px 38px rgba(90,70,40,.30)); }
 @keyframes noteFloat{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-7px) } }
+
+/* text overlay — positioned over the paper, above the ribbon; sized in cqw
+   so it scales precisely with the card at any width */
+.note-text{ position:absolute; inset:12% 13% 23% 13%;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  text-align:center; }
+.nt-bsd{ font-family:var(--hebrew); font-size:3cqw; color:#9a886a; align-self:flex-end; }
+.nt-names{ font-family:var(--hebrew); font-weight:500; font-size:11cqw; color:#766039;
+  margin:0.6cqw 0 0; line-height:1; }
+.nt-names .amp{ color:var(--gold); font-style:normal; }
+.nt-rule{ width:13cqw; height:1px; margin:2cqw 0; opacity:.7;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.nt-line{ font-family:var(--hebrew); font-weight:400; font-size:3.7cqw; color:#6b5836;
+  margin:0.3cqw 0; line-height:1.45; }
+.nt-date{ font-family:var(--serif); font-weight:500; font-size:7.5cqw; color:#766039;
+  letter-spacing:.04em; margin:0.8cqw 0 0; }
 
 /* keepsake (scratch + countdown) beneath the note */
 .keepsake{ display:flex; flex-direction:column; align-items:center; gap:18px; }
