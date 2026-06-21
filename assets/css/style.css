@@ -114,6 +114,20 @@ html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text
 
 
 /* =================================================================
+   ACT −0.5 — THE SCRATCH SCENE  (revealed by the gate; scratching it
+   reveals the envelope behind)
+   ================================================================= */
+.scratch-scene{
+  position:fixed; inset:0; z-index:110;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(18px,4vh,26px);
+  background:#ece3cf url("../img/bg.jpg") center top / cover no-repeat;
+  transition:opacity .85s var(--ease), visibility .85s;
+}
+.scratch-scene.dismiss{ opacity:0; visibility:hidden; pointer-events:none; }
+
+
+/* =================================================================
    ACT 0 — ENVELOPE  (cinematic 3D open)
    ================================================================= */
 .envelope-scene{
@@ -182,10 +196,10 @@ html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text
 .env-lid-pivot{ position:absolute; left:0; right:0; top:0; transform:translateZ(5px);
   transform-style:preserve-3d; }
 .env-lid{ display:block; width:100%; height:auto; transform-origin:top center;
-  transform:rotateX(0deg); transition:transform 1.25s var(--ease-open) .3s;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden; }
-/* open: the lid folds up around its top hinge, then hides past edge-on */
-.envelope-scene.is-open .env-lid{ transform:rotateX(135deg); }
+  transform:rotateX(0deg); transition:transform 1.35s var(--ease-open) .3s; }
+/* open: the lid folds all the way up over its hinge into a standing "pyramid"
+   (downward flap → thin edge-on line at 90° → upward pyramid) */
+.envelope-scene.is-open .env-lid{ transform:rotateX(166deg); }
 
 /* wax seal */
 .env-seal{ position:absolute; left:50%; top:49%; width:38px; height:38px; border-radius:50%;

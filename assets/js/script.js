@@ -118,20 +118,33 @@ $$('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset
 
 
 /* =================================================================
-   SOUND  (synthesised — no audio files needed)
+   SOUND  (looping music + synthesised accent chimes)
    ================================================================= */
 let soundOn = false, audioCtx = null;
 const soundBtn = $('#soundBtn');
+const bgm = $('#bgm');
+const MUSIC_VOL = 0.5;
 
-soundBtn.addEventListener('click', () => {
-  soundOn = !soundOn;
-  soundBtn.setAttribute('aria-pressed', String(soundOn));
-  if (soundOn) {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    chime(660, 0.18); setTimeout(() => chime(880, 0.2), 110);
-  }
-});
+function ensureCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function fadeMusicIn() {
+  if (!bgm) return;
+  bgm.volume = 0;
+  bgm.play().then(() => {
+    let v = 0;
+    const id = setInterval(() => { v = Math.min(MUSIC_VOL, v + 0.035); bgm.volume = v;
+      if (v >= MUSIC_VOL) clearInterval(id); }, 110);
+  }).catch(() => {});
+}
+function setSound(on) {
+  soundOn = on;
+  soundBtn.setAttribute('aria-pressed', String(on));
+  if (on) { ensureCtx(); fadeMusicIn(); }
+  else if (bgm) bgm.pause();
+}
+soundBtn.addEventListener('click', () => setSound(!soundOn));
 
 function chime(freq, gain = 0.15) {
   if (!soundOn || !audioCtx) return;
@@ -152,16 +165,18 @@ function sparkleChime() {
 /* =================================================================
    ACT 0 — ENVELOPE
    ================================================================= */
-/* --- ACT −1: the gate parts to the sides, revealing the envelope --- */
+/* --- ACT −1: the gate swings open, revealing the scratch card --- */
 const gate = $('#gate');
+const scratchScene = $('#scratch-scene');
 let gateOpened = false;
 function openGate() {
   if (gateOpened) return;
   gateOpened = true;
+  setSound(true);            // start the music on this first user gesture
   gate.classList.add('open');
   chime(329.63, 0.13); setTimeout(() => chime(440, 0.13), 400); setTimeout(() => chime(587.33, 0.13), 1400);
   setTimeout(() => gate.classList.add('gone'), 2300);
-  setTimeout(() => { gate.style.display = 'none'; }, 2850);
+  setTimeout(() => { gate.style.display = 'none'; armScratch(); }, 2850);
 }
 if (gate) {
   gate.addEventListener('click', openGate);
@@ -195,8 +210,18 @@ function openEnvelope() {
   setTimeout(() => {
     document.body.classList.remove('locked');
     scene.style.display = 'none';
-    armScratch();
+    revealCardScene();
   }, 2750);
+}
+
+/* show the countdown + scroll cue once the card scene is live */
+function revealCardScene() {
+  setTimeout(() => $('#countdown')?.classList.add('show'), 300);
+  startCountdown();
+  setTimeout(() => {
+    const cue = $('#scrollCue');
+    if (cue) { cue.hidden = false; requestAnimationFrame(() => cue.classList.add('show')); }
+  }, 1100);
 }
 
 scene.addEventListener('click', openEnvelope);
@@ -396,15 +421,9 @@ function finishReveal() {
   spawnSparkles();
   sparkleChime();
 
-  // staged text + countdown
-  setTimeout(() => $('#countdown').classList.add('show'), 350);
-  startCountdown();
-
-  setTimeout(() => {
-    const cue = $('#scrollCue');
-    cue.hidden = false;
-    requestAnimationFrame(() => cue.classList.add('show'));
-  }, 1300);
+  // the scratch is revealed — now reveal the envelope waiting behind it
+  setTimeout(() => scratchScene && scratchScene.classList.add('dismiss'), 1500);
+  setTimeout(() => { if (scratchScene) scratchScene.style.display = 'none'; }, 2400);
 }
 
 $('#scrollCue')?.addEventListener('click', () =>
