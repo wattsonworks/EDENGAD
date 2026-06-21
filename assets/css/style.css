@@ -151,7 +151,7 @@ html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text
 /* 3D stage */
 .envelope-stage{ perspective:1300px; perspective-origin:50% 42%; }
 .envelope{
-  position:relative; width:min(80vw,348px); aspect-ratio:7/5;
+  position:relative; width:min(84vw,376px); aspect-ratio:780/566;
   transform-style:preserve-3d;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
   transition:transform .5s var(--ease);
@@ -174,71 +174,21 @@ html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text
   transition:transform .9s var(--ease), opacity .9s; }
 .envelope-scene.is-open .env-shadow{ transform:translateZ(-30px) scale(1.18,.78); opacity:.65; }
 
-/* pocket back */
-.env-back{ position:absolute; inset:0; border-radius:11px; transform:translateZ(0);
-  background:linear-gradient(150deg,var(--rose-2),var(--rose-3));
-  box-shadow:0 32px 54px -20px rgba(120,70,70,.42); }
+/* real linen envelope body (pocket) */
+.env-body{ position:absolute; inset:0; width:100%; height:100%; transform:translateZ(0);
+  filter:drop-shadow(0 22px 30px rgba(110,90,55,.3)); }
 
-/* card tucked INSIDE the pocket when closed (top edge stays below the
-   envelope rim, hidden by the flap); it only rises out once opened */
-.env-card{ position:absolute; left:7%; right:7%; top:6%; height:88%;
-  border-radius:8px; background:linear-gradient(165deg,#fcf6e8,#efe2c8);
-  box-shadow:0 10px 26px rgba(110,90,55,.24);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:8px; padding:14px; transform:translateZ(6px) translateY(0);
-  transition:transform 1.2s var(--ease-rise) 1s; }
-.env-card > *{ opacity:0; }
-/* the card stays tucked in the pocket on open — the Temple pyramid is the
-   reveal; the names appear in the main card scene after the hand-off */
-.envelope-scene.is-open .env-card{ transform:translateZ(6px) translateY(0); }
-.env-card-overline{ font-size:11px; letter-spacing:.42em; text-indent:.42em; color:var(--ink-soft); text-transform:uppercase; }
-.env-card-mono{ font-size:clamp(30px,9vw,44px); color:var(--ink); letter-spacing:.04em; }
-.env-card-sub{ font-family:var(--script); font-size:clamp(20px,6vw,28px); color:var(--gold); }
-html[dir="rtl"] .env-card-sub{ font-family:var(--hebrew); font-weight:500; font-size:clamp(19px,5.4vw,25px); }
-
-/* pocket front (bottom V flaps) + light sheen */
-.env-front{ position:absolute; inset:0; border-radius:11px; overflow:hidden; transform:translateZ(12px);
-  background:linear-gradient(160deg,var(--rose-1),var(--rose-3));
-  clip-path:polygon(0 100%,0 16%,50% 62%,100% 16%,100% 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.45); }
-.env-front::before,.env-front::after{ content:""; position:absolute; bottom:0; width:54%; height:88%;
-  background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(160,110,110,.1)); }
-.env-front::before{ left:0; clip-path:polygon(0 0,0 100%,100% 100%); }
-.env-front::after{ right:0; clip-path:polygon(100% 0,100% 100%,0 100%); }
-.env-sheen{ position:absolute; inset:-30% -12%;
-  background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%);
-  transform:translateX(-130%); animation:sheen 5s ease-in-out 1.6s infinite; }
-@keyframes sheen{ 0%{ transform:translateX(-130%) } 24%,100%{ transform:translateX(130%) } }
-
-/* 3D opening flap — the PIVOT wrapper holds the depth (constant), the inner
-   .env-flap does a clean fold around its top edge: 0° (downward triangle,
-   closed) → 90° (thin edge-on line) → 180° (upward Temple pyramid). */
-.env-flap-pivot{ position:absolute; left:0; right:0; top:0; height:70%;
-  transform:translateZ(13px); transform-style:preserve-3d; }
-.env-flap{ position:absolute; inset:0; transform-origin:top center;
-  transform-style:preserve-3d; transform:rotateX(0deg);
-  transition:transform 1.35s var(--ease-open) .3s; }
-.flap-face{ position:absolute; inset:0;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; }
-/* outside: plain cream downward triangle with the monogram (closed view) */
-.flap-out{ clip-path:polygon(0 0,100% 0,50% 100%);
-  background:linear-gradient(165deg,var(--rose-1),var(--rose-2));
-  display:flex; justify-content:center; box-shadow:0 3px 10px rgba(120,98,58,.2); }
-/* inside: the Temple liner, authored as an UPWARD triangle so it reads as a
-   pyramid once the flap is flipped over. */
-.flap-in{ clip-path:polygon(0 100%,100% 100%,50% 0);
-  transform:rotateX(180deg);
-  background:linear-gradient(180deg,#f3e8d2 0%,#e9dcc1 60%,#ddcfb0 100%);
-  box-shadow:inset 0 0 0 1px rgba(150,120,70,.24); }
-.flap-liner{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; object-position:center 38%; }
-.flap-mono{ margin-top:7%; font-family:var(--hebrew); font-size:clamp(17px,5.4vw,25px);
-  color:var(--ink); letter-spacing:.04em; text-shadow:0 1px 0 rgba(255,250,240,.5); }
-/* open: fold fully over the top into the upward pyramid */
-.envelope-scene.is-open .env-flap{ transform:rotateX(180deg); }
+/* the lid / flap — folds up around its top hinge on open */
+.env-lid-pivot{ position:absolute; left:0; right:0; top:0; transform:translateZ(5px);
+  transform-style:preserve-3d; }
+.env-lid{ display:block; width:100%; height:auto; transform-origin:top center;
+  transform:rotateX(0deg); transition:transform 1.25s var(--ease-open) .3s;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+/* open: the lid folds up around its top hinge, then hides past edge-on */
+.envelope-scene.is-open .env-lid{ transform:rotateX(135deg); }
 
 /* wax seal */
-.env-seal{ position:absolute; left:50%; top:54%; width:40px; height:40px; border-radius:50%;
+.env-seal{ position:absolute; left:50%; top:49%; width:38px; height:38px; border-radius:50%;
   transform:translate(-50%,-50%) translateZ(16px);
   background:radial-gradient(circle at 35% 30%,#c08a5b,#7a4d2f);
   box-shadow:0 4px 10px rgba(80,55,30,.45), inset 0 1px 2px rgba(255,240,220,.4), inset 0 -2px 4px rgba(60,38,20,.5);
@@ -252,7 +202,7 @@ html[dir="rtl"] .env-card-sub{ font-family:var(--hebrew); font-weight:500; font-
 }
 
 /* seal-break particle burst (filled by JS) */
-.seal-burst{ position:absolute; left:50%; top:54%; width:0; height:0; transform:translateZ(18px); }
+.seal-burst{ position:absolute; left:50%; top:49%; width:0; height:0; transform:translateZ(18px); }
 .burst-bit{ position:absolute; left:0; top:0; border-radius:50%;
   background:radial-gradient(circle,#d8b486,#7a4d2f); opacity:0; }
 .envelope-scene.is-breaking .burst-bit{ animation:burst .66s ease-out forwards; }

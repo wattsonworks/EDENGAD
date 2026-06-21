@@ -186,18 +186,17 @@ function openEnvelope() {
   scene.classList.add('is-breaking');
   chime(392, 0.14);
 
-  // 2. the flap folds up into the Temple pyramid (the reveal)
-  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 320);
-  setTimeout(() => chime(659.25, 0.15), 1100);  // chime as it passes edge-on
-  setTimeout(() => chime(783.99, 0.16), 1900);  // chime as the pyramid settles
+  // 2. the lid folds up, opening the envelope
+  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 300);
+  setTimeout(() => chime(659.25, 0.15), 1000);  // chime as it passes edge-on
 
-  // 3. hold the Temple pyramid for a beat, then gently lift away & hand off
-  setTimeout(() => scene.classList.add('dismiss'), 3000);
+  // 3. gently lift the open envelope away & hand off to the card scene
+  setTimeout(() => scene.classList.add('dismiss'), 2150);
   setTimeout(() => {
     document.body.classList.remove('locked');
     scene.style.display = 'none';
     armScratch();
-  }, 3800);
+  }, 2750);
 }
 
 scene.addEventListener('click', openEnvelope);
