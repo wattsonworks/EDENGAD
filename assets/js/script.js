@@ -151,17 +151,18 @@ function openEnvelope() {
   scene.classList.add('is-breaking');
   chime(392, 0.14);
 
-  // 2. flap unfolds + card rises
-  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 240);
-  setTimeout(() => chime(783.99, 0.16), 760);
+  // 2. flap unfolds, then (a beat later) the card eases out of the pocket
+  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 320);
+  setTimeout(() => chime(659.25, 0.15), 900);   // chime as the flap settles
+  setTimeout(() => chime(783.99, 0.16), 1500);  // chime as the card rises
 
-  // 3. envelope flies toward the viewer & fades, revealing the card scene beneath
-  setTimeout(() => scene.classList.add('dismiss'), 1280);
+  // 3. let the risen card settle for a beat, then gently lift away & hand off
+  setTimeout(() => scene.classList.add('dismiss'), 2750);
   setTimeout(() => {
     document.body.classList.remove('locked');
     scene.style.display = 'none';
     armScratch();
-  }, 1950);
+  }, 3550);
 }
 
 scene.addEventListener('click', openEnvelope);
@@ -483,8 +484,8 @@ $$('.reveal-on-scroll').forEach(el => io.observe(el));
    ================================================================= */
 (function boot() {
   document.body.classList.add('locked');
-  let lang = 'en';
-  try { lang = localStorage.getItem('eg_lang') || 'en'; } catch (e) {}
+  let lang = 'he';                                   // Hebrew is the default
+  try { lang = localStorage.getItem('eg_lang') || 'he'; } catch (e) {}
   setLang(lang);
   buildActionLinks();
   spawnPetals();
