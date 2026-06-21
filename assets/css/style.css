@@ -59,6 +59,38 @@ body.locked{ overflow:hidden; height:100vh; }
 
 
 /* =================================================================
+   PRELOADER  (covers everything until the gate + surprises load)
+   ================================================================= */
+.preloader{
+  position:fixed; inset:0; z-index:200;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(20px,5vh,30px);
+  background:#ece3cf url("../img/bg.jpg") center top / cover no-repeat;
+  transition:opacity .85s var(--ease), visibility .85s;
+}
+.preloader::before{ content:""; position:absolute; inset:0;
+  background:linear-gradient(rgba(243,236,221,.42),rgba(243,236,221,.56)); }
+.preloader.done{ opacity:0; visibility:hidden; pointer-events:none; }
+.pre-card{ position:relative; z-index:1; width:104px; height:104px;
+  display:flex; align-items:center; justify-content:center; }
+.pre-ring{ position:absolute; inset:0; width:100%; height:100%; }
+.pre-track{ fill:none; stroke:var(--line-soft); stroke-width:1.3; }
+.pre-arc{ fill:none; stroke:var(--gold); stroke-width:1.8; stroke-linecap:round;
+  stroke-dasharray:74 251; transform-origin:50% 50%; animation:preSpin 1.3s linear infinite; }
+@keyframes preSpin{ to{ transform:rotate(360deg) } }
+.pre-mono{ position:relative; z-index:1; font-family:var(--hebrew); font-weight:500;
+  font-size:24px; color:var(--ink); }
+.pre-mono .amp{ color:var(--gold); margin:0 3px; }
+.pre-label{ position:relative; z-index:1; font-family:var(--hebrew); font-size:13px;
+  letter-spacing:.2em; color:var(--ink-soft); }
+html[dir="ltr"] .pre-label{ font-family:var(--serif); font-style:italic; letter-spacing:.08em; }
+.pre-bar{ position:relative; z-index:1; width:min(56vw,190px); height:2px;
+  background:var(--line-soft); border-radius:2px; overflow:hidden; }
+.pre-bar-fill{ display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--gold-soft),var(--gold)); transition:width .35s var(--ease); }
+
+
+/* =================================================================
    ACT −1 — THE GATE  (split doors opening to the sides)
    ================================================================= */
 .gate{

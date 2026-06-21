@@ -27,6 +27,7 @@ const CONFIG = {
 
 const I18N = {
   en: {
+    loading: 'One moment…',
     enterHint: 'Tap to enter',
     tapOpen: 'Tap to open',
     stdMini: 'SAVE THE DATE',
@@ -56,6 +57,7 @@ const I18N = {
     footer: 'We can’t wait to see you · 26.07.2026',
   },
   he: {
+    loading: 'רגע אחד…',
     enterHint: 'הקליקו לכניסה',
     tapOpen: 'הקליקו לפתיחה',
     stdMini: 'שמרו את התאריך',
@@ -89,6 +91,36 @@ const I18N = {
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+/* =================================================================
+   PRELOADER — load the gate + every surprise, THEN reveal the gate
+   ================================================================= */
+(function preload() {
+  const pre = $('#preloader');
+  if (!pre) return;
+  const fill = $('#preBarFill');
+  const assets = ['bg.jpg', 'gate.webp', 'reveal.jpg', 'envbody.webp', 'envlid.webp',
+                  'cardblank.webp', 'temple.webp'].map(f => 'assets/img/' + f);
+  const total = assets.length;
+  let loaded = 0, finished = false;
+
+  function dismiss() {
+    if (finished) return; finished = true;
+    if (fill) fill.style.width = '100%';
+    setTimeout(() => {
+      pre.classList.add('done');
+      setTimeout(() => { pre.style.display = 'none'; }, 900);
+    }, 350);
+  }
+  function bump() {
+    loaded++;
+    if (fill) fill.style.width = Math.round(loaded / total * 100) + '%';
+    if (loaded >= total) dismiss();
+  }
+  assets.forEach(src => { const img = new Image(); img.onload = bump; img.onerror = bump; img.src = src; });
+  setTimeout(dismiss, 8000);   // safety: never hang
+})();
 
 
 /* =================================================================
@@ -129,37 +161,27 @@ function ensureCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 }
-function fadeMusicIn() {
+function playMusic(fromStart) {
   if (!bgm) return;
-  bgm.volume = 0;
-  bgm.play().then(() => {
-    let v = 0;
-    const id = setInterval(() => { v = Math.min(MUSIC_VOL, v + 0.035); bgm.volume = v;
-      if (v >= MUSIC_VOL) clearInterval(id); }, 110);
+  if (fromStart) { try { bgm.currentTime = 0; } catch (e) {} }   // ignite from the beginning
+  bgm.volume = MUSIC_VOL * 0.4;
+  bgm.play().then(() => {                                         // quick swell so it kicks in
+    let v = bgm.volume;
+    const id = setInterval(() => { v = Math.min(MUSIC_VOL, v + 0.08); bgm.volume = v;
+      if (v >= MUSIC_VOL) clearInterval(id); }, 50);
   }).catch(() => {});
 }
-function setSound(on) {
+function setSound(on, fromStart) {
   soundOn = on;
   soundBtn.setAttribute('aria-pressed', String(on));
-  if (on) { ensureCtx(); fadeMusicIn(); }
+  if (on) { ensureCtx(); playMusic(fromStart); }
   else if (bgm) bgm.pause();
 }
-soundBtn.addEventListener('click', () => setSound(!soundOn));
+soundBtn.addEventListener('click', () => setSound(!soundOn, false));   // toggle resumes, doesn't restart
 
-function chime(freq, gain = 0.15) {
-  if (!soundOn || !audioCtx) return;
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  o.type = 'sine'; o.frequency.value = freq;
-  g.gain.setValueAtTime(0, audioCtx.currentTime);
-  g.gain.linearRampToValueAtTime(gain, audioCtx.currentTime + 0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.1);
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime + 1.2);
-}
-function sparkleChime() {
-  [784, 988, 1175, 1568].forEach((f, i) => setTimeout(() => chime(f, 0.12), i * 90));
-}
+/* synth chimes removed — the looping music carries the whole vibe */
+function chime() {}
+function sparkleChime() {}
 
 
 /* =================================================================
@@ -172,9 +194,8 @@ let gateOpened = false;
 function openGate() {
   if (gateOpened) return;
   gateOpened = true;
-  setSound(true);            // start the music on this first user gesture
+  setSound(true, true);      // ignite the music from its beginning on this first gesture
   gate.classList.add('open');
-  chime(329.63, 0.13); setTimeout(() => chime(440, 0.13), 400); setTimeout(() => chime(587.33, 0.13), 1400);
   setTimeout(() => gate.classList.add('gone'), 2300);
   setTimeout(() => { gate.style.display = 'none'; armScratch(); }, 2850);
 }
@@ -199,11 +220,9 @@ function openEnvelope() {
   // 1. seal cracks + bursts
   spawnSealBurst();
   scene.classList.add('is-breaking');
-  chime(392, 0.14);
 
   // 2. the lid folds up, opening the envelope
-  setTimeout(() => { scene.classList.add('is-open'); chime(523.25, 0.15); }, 300);
-  setTimeout(() => chime(659.25, 0.15), 1000);  // chime as it passes edge-on
+  setTimeout(() => scene.classList.add('is-open'), 300);
 
   // 3. gently lift the open envelope away & hand off to the card scene
   setTimeout(() => scene.classList.add('dismiss'), 2150);
@@ -419,7 +438,6 @@ function finishReveal() {
   document.body.classList.add('revealed');
 
   spawnSparkles();
-  sparkleChime();
 
   // the scratch is revealed — now reveal the envelope waiting behind it
   setTimeout(() => scratchScene && scratchScene.classList.add('dismiss'), 1500);

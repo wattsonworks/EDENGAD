@@ -26,6 +26,19 @@
 </head>
 <body>
 
+<!-- preloader: shown until the gate + surprises have loaded -->
+<div id="preloader" class="preloader" role="status" aria-live="polite">
+  <div class="pre-card">
+    <svg class="pre-ring" viewBox="0 0 100 100" aria-hidden="true">
+      <circle class="pre-track" cx="50" cy="50" r="40"></circle>
+      <circle class="pre-arc" cx="50" cy="50" r="40"></circle>
+    </svg>
+    <span class="pre-mono">ע<span class="amp">&amp;</span>ג</span>
+  </div>
+  <span class="pre-label" data-i18n="loading">רגע אחד…</span>
+  <div class="pre-bar"><span class="pre-bar-fill" id="preBarFill"></span></div>
+</div>
+
 <div class="page-bg" aria-hidden="true"></div>
 <audio id="bgm" src="assets/audio/music.mp3" loop preload="auto"></audio>
 
