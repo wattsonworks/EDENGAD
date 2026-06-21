@@ -277,13 +277,17 @@ html[dir="ltr"] .gate-hint{ font-family:var(--serif); letter-spacing:.22em; text
   opacity:0; transition:opacity .6s var(--ease) .2s; pointer-events:none;
 }
 body.opened .topbar{ opacity:1; pointer-events:auto; }
-.lang-toggle{ display:flex; align-items:center; gap:8px; font-size:13px;
-  letter-spacing:.18em; color:var(--ink-soft); }
-.lang-btn{ background:none; border:none; cursor:pointer; padding:4px 2px;
-  font:inherit; letter-spacing:inherit; color:var(--ink-faint);
+.lang-toggle{ display:flex; align-items:center; gap:7px; font-size:13px;
+  letter-spacing:.16em; color:var(--ink); font-weight:600;
+  background:rgba(255,251,243,.62); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  padding:6px 13px; border-radius:30px; box-shadow:0 2px 10px -4px rgba(90,70,40,.4),
+  inset 0 0 0 1px rgba(120,98,58,.18); }
+.lang-btn{ background:none; border:none; cursor:pointer; padding:3px 2px;
+  font:inherit; letter-spacing:inherit; color:var(--ink-soft); font-weight:600;
   transition:color .25s; }
-.lang-btn.is-active{ color:var(--ink); border-bottom:1px solid var(--gold); }
-.lang-sep{ color:var(--ink-faint); }
+.lang-btn:hover{ color:var(--ink); }
+.lang-btn.is-active{ color:#4a3b24; border-bottom:2px solid var(--gold); }
+.lang-sep{ color:var(--ink-faint); font-weight:400; }
 .sound-btn{ width:36px; height:36px; border:none; background:rgba(255,255,255,.34);
   border-radius:50%; cursor:pointer; color:var(--ink-soft); display:grid; place-items:center;
   backdrop-filter:blur(6px); transition:background .25s; }
@@ -322,11 +326,14 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
 .nt-bsd{ font-family:var(--hebrew); font-size:3cqw; color:#9a886a; align-self:flex-end; }
 .nt-names{ font-family:var(--hebrew); font-weight:500; font-size:11cqw; color:#766039;
   margin:0.6cqw 0 0; line-height:1; }
+.nt-names [hidden]{ display:none; }
+.nt-en{ font-family:var(--serif); }
 .nt-names .amp{ color:var(--gold); font-style:normal; }
 .nt-rule{ width:13cqw; height:1px; margin:2cqw 0; opacity:.7;
   background:linear-gradient(90deg,transparent,var(--gold),transparent); }
 .nt-line{ font-family:var(--hebrew); font-weight:400; font-size:3.7cqw; color:#6b5836;
   margin:0.3cqw 0; line-height:1.45; }
+html[dir="ltr"] .nt-line{ font-family:var(--serif); font-style:italic; font-size:3.5cqw; line-height:1.35; }
 .nt-date{ font-family:var(--serif); font-weight:500; font-size:7.5cqw; color:#766039;
   letter-spacing:.04em; margin:0.8cqw 0 0; }
 
@@ -496,12 +503,19 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
    ================================================================= */
 .temple-feature{ position:relative; width:100%; display:flex; justify-content:center;
   margin-top:clamp(-72px,-9vh,-36px); pointer-events:none; }
-.temple-art{ display:block; width:min(100%,620px); height:auto;
+.temple-wrap{ position:relative; width:min(100%,620px); margin:0; }
+.temple-art{ display:block; width:100%; height:auto;
   /* the sky is already transparent (top blends into the fabric); fade the
      foreground so the join to the next section is feathered, not a square cut */
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
           mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
 }
+/* verse written over the temple's transparent sky */
+.temple-verse{ position:absolute; top:7%; left:6%; right:6%; margin:0; text-align:center;
+  font-family:var(--hebrew); font-weight:500; font-size:clamp(16px,4.6vw,23px);
+  color:#574230; letter-spacing:.05em; line-height:1.5;
+  text-shadow:0 1px 9px rgba(243,236,221,.95), 0 0 2px rgba(243,236,221,.9); }
+html[dir="ltr"] .temple-verse{ font-family:var(--serif); font-style:italic; letter-spacing:.03em; }
 
 
 /* =================================================================

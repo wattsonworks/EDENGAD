@@ -151,22 +151,25 @@
     <!-- the invitation card: transparent blank paper + text written over it -->
     <figure class="note-paper reveal-on-scroll" id="card">
       <img class="note-card" src="assets/img/cardblank.webp" alt="" />
-      <div class="note-text" dir="rtl">
+      <div class="note-text">
         <span class="nt-bsd">בס״ד</span>
-        <h1 class="nt-names">עדן <span class="amp">&amp;</span> גד</h1>
+        <h1 class="nt-names">
+          <span class="nt-he">עדן <span class="amp">&amp;</span> גד</span>
+          <span class="nt-en" hidden>Eden <span class="amp">&amp;</span> Gad</span>
+        </h1>
         <span class="nt-rule" aria-hidden="true"></span>
-        <p class="nt-line">בשמחה ובהתרגשות</p>
-        <p class="nt-line">מזמינים אתכם לחגוג עמנו</p>
-        <p class="nt-line">ביום חתונתנו</p>
+        <p class="nt-line" data-i18n="ntInv1">בשמחה ובהתרגשות</p>
+        <p class="nt-line" data-i18n="ntInv2">מזמינים אתכם לחגוג עמנו</p>
+        <p class="nt-line" data-i18n="ntInv3">ביום חתונתנו</p>
         <span class="nt-rule" aria-hidden="true"></span>
-        <p class="nt-line">יום ראשון</p>
-        <p class="nt-line">י״ב באב תשפ״ו</p>
+        <p class="nt-line" data-i18n="ntDay">יום ראשון</p>
+        <p class="nt-line" data-i18n="ntHdate">י״ב באב תשפ״ו</p>
         <p class="nt-date">26.07.2026</p>
         <span class="nt-rule" aria-hidden="true"></span>
-        <p class="nt-line">קבלת פנים 19:00 · חופה וקידושין 20:00</p>
+        <p class="nt-line" data-i18n="ntSched">קבלת פנים 19:00 · חופה וקידושין 20:00</p>
         <span class="nt-rule" aria-hidden="true"></span>
-        <p class="nt-line">נשמח לראותכם ולחלוק עמכם</p>
-        <p class="nt-line">ערב של אהבה, שמחה וברכה</p>
+        <p class="nt-line" data-i18n="ntClose1">נשמח לראותכם ולחלוק עמכם</p>
+        <p class="nt-line" data-i18n="ntClose2">ערב של אהבה, שמחה וברכה</p>
       </div>
     </figure>
 
@@ -192,7 +195,10 @@
   <!--  ACT 1.5 — THE TEMPLE (blends in below the keepsake)        -->
   <!-- =========================================================== -->
   <section class="temple-feature" id="temple" aria-label="בית המקדש">
-    <img class="temple-art" src="assets/img/temple.webp" alt="איור של בית המקדש" loading="lazy" />
+    <figure class="temple-wrap">
+      <img class="temple-art" src="assets/img/temple.webp" alt="איור של בית המקדש" loading="lazy" />
+      <figcaption class="temple-verse" data-i18n="templeVerse">בְּחַצְרוֹת קׇדְשֶׁךָ…</figcaption>
+    </figure>
   </section>
 
 

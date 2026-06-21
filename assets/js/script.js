@@ -38,6 +38,15 @@ const I18N = {
     dateLabel: '12 Av 5786 · 26.07.2026',
     revealLabel: 'A moment with us',
     scratchHint: 'Scratch to reveal',
+    ntInv1: 'With joy and excitement',
+    ntInv2: 'we invite you to celebrate with us',
+    ntInv3: 'on our wedding day',
+    ntDay: 'Sunday',
+    ntHdate: '12 Av 5786',
+    ntSched: 'Reception 19:00 · Chuppah & Kiddushin 20:00',
+    ntClose1: 'We would love to see you and share with us',
+    ntClose2: 'an evening of love, joy and blessing',
+    templeVerse: 'In the courtyards of Your holiness…',
     cdDays: 'days', cdHours: 'hours', cdMins: 'mins', cdSecs: 'secs',
     scrollMore: 'Scroll for more',
     quote: 'And it seemed to me that the land I walked upon, and the streets I passed through, and the whole world entire — are but a corridor leading to this house.',
@@ -68,6 +77,15 @@ const I18N = {
     dateLabel: 'י״ב באב התשפ״ו · 26.07.2026',
     revealLabel: 'רגע איתנו',
     scratchHint: 'גרדו כדי לחשוף',
+    ntInv1: 'בשמחה ובהתרגשות',
+    ntInv2: 'מזמינים אתכם לחגוג עמנו',
+    ntInv3: 'ביום חתונתנו',
+    ntDay: 'יום ראשון',
+    ntHdate: 'י״ב באב תשפ״ו',
+    ntSched: 'קבלת פנים 19:00 · חופה וקידושין 20:00',
+    ntClose1: 'נשמח לראותכם ולחלוק עמכם',
+    ntClose2: 'ערב של אהבה, שמחה וברכה',
+    templeVerse: 'בְּחַצְרוֹת קׇדְשֶׁךָ…',
     cdDays: 'ימים', cdHours: 'שעות', cdMins: 'דקות', cdSecs: 'שניות',
     scrollMore: 'גללו להמשך',
     quote: 'וְדוֹמֶה הָיָה לִי שֶׁהָאָרֶץ שֶׁהָלַכְתִּי עָלֶיהָ וְהָרְחוֹבוֹת שֶׁעָבַרְתִּי בָּהֶם וְכָל הָעוֹלָם כֻּלּוֹ, אֵינָם אֶלָּא פְּרוֹזְדוֹר לְבַיִת זֶה.',
@@ -136,10 +154,9 @@ function setLang(lang) {
     if (dict[key] != null) el.textContent = dict[key];
   });
 
-  // names swap (only if the inline names exist)
-  const nEn = $('.name-en'), nHe = $('.name-he');
-  if (nEn) nEn.hidden = lang === 'he';
-  if (nHe) nHe.hidden = lang !== 'he';
+  // names swap (Hebrew vs English name spans)
+  $$('.nt-en, .name-en').forEach(el => el.hidden = lang === 'he');
+  $$('.nt-he, .name-he').forEach(el => el.hidden = lang !== 'he');
 
   $$('.lang-btn').forEach(b => b.classList.toggle('is-active', b.dataset.lang === lang));
   buildActionLinks();
