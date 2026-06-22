@@ -336,6 +336,8 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
 html[dir="ltr"] .nt-line{ font-family:var(--serif); font-style:italic; font-size:3.5cqw; line-height:1.35; }
 .nt-date{ font-family:var(--serif); font-weight:500; font-size:7.5cqw; color:#766039;
   letter-spacing:.04em; margin:0.8cqw 0 0; }
+.nt-venue{ font-size:3.4cqw; color:#7d6c49; }
+html[dir="ltr"] .nt-venue{ font-size:3.2cqw; }
 
 /* keepsake (scratch + countdown) beneath the note */
 .keepsake{ display:flex; flex-direction:column; align-items:center; gap:18px; }
@@ -479,6 +481,8 @@ html[dir="rtl"] .scratch-hint{ letter-spacing:.08em; text-indent:0; }
   transition:opacity .8s var(--ease), transform .8s var(--ease);
 }
 .countdown.show{ opacity:1; transform:none; }
+/* in Hebrew the row is otherwise mirrored — keep days→secs reading left→right */
+html[dir="rtl"] .countdown{ flex-direction:row-reverse; }
 .cd-item{ display:flex; flex-direction:column; align-items:center; min-width:42px; }
 .cd-num{ font-size:clamp(26px,8vw,38px); font-weight:500; color:var(--ink); line-height:1;
   font-variant-numeric:tabular-nums; }
@@ -512,16 +516,19 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
 }
 /* verse written over the temple's transparent sky */
 .temple-verse{ position:absolute; top:7%; left:6%; right:6%; margin:0; text-align:center;
-  font-family:var(--hebrew); font-weight:500; font-size:clamp(16px,4.6vw,23px);
-  color:#574230; letter-spacing:.05em; line-height:1.5;
+  font-family:var(--hebrew); font-style:italic; font-weight:500; font-size:clamp(17px,5vw,25px);
+  color:#574230; letter-spacing:.04em; line-height:1.5;
   text-shadow:0 1px 9px rgba(243,236,221,.95), 0 0 2px rgba(243,236,221,.9); }
-html[dir="ltr"] .temple-verse{ font-family:var(--serif); font-style:italic; letter-spacing:.03em; }
+html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
 
 
 /* =================================================================
    ACT 2 — STORY / GALLERY
    ================================================================= */
-.story{ padding:clamp(30px,5vh,56px) 20px clamp(20px,4vh,40px); max-width:760px; margin:0 auto; }
+.story{ padding:clamp(20px,4vh,44px) 20px clamp(20px,4vh,40px); max-width:760px; margin:0 auto; }
+.story-photo{ margin:0 auto; width:min(92vw,560px); border-radius:6px; overflow:hidden;
+  box-shadow:0 24px 50px -24px rgba(110,90,55,.55); }
+.story-photo img{ display:block; width:100%; height:auto; }
 .story-head{ text-align:center; margin-bottom:clamp(30px,6vh,52px); }
 .mini-orn{ color:var(--gold); font-size:18px; }
 .story-title{ font-family:var(--serif); font-style:italic; font-weight:500;
@@ -548,7 +555,10 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); font-style:italic; lett
 }
 .quote-oval::before{ content:""; position:absolute; inset:9px; border:1px solid var(--line-soft);
   border-radius:50% / 44%; pointer-events:none; }
-.quote-orn{ display:block; color:var(--gold); font-size:15px; margin-bottom:16px; }
+.quote-mark{ display:block; font-family:var(--serif); color:var(--gold); opacity:.5;
+  font-size:46px; line-height:0; }
+.quote-mark-open{ height:.42em; margin-bottom:12px; }
+.quote-mark-close{ height:.5em; margin:14px 0 0; }
 .quote-text{ margin:0; font-family:var(--hebrew); color:var(--ink); font-weight:400;
   font-size:clamp(15px,4.3vw,18px); line-height:2.05; }
 html[dir="ltr"] .quote-text{ font-family:var(--serif); font-style:italic; line-height:1.75;
