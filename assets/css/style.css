@@ -323,7 +323,7 @@ body.opened .topbar{ opacity:1; pointer-events:auto; }
 .note-text{ position:absolute; inset:12% 13% 23% 13%;
   display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
   text-align:center; }
-.nt-bsd{ font-family:var(--hebrew); font-size:3cqw; color:#9a886a; align-self:flex-end; }
+.nt-bsd{ font-family:var(--hebrew); font-size:3cqw; color:#9a886a; align-self:flex-start; }
 .nt-names{ font-family:var(--hebrew); font-weight:500; font-size:11cqw; color:#766039;
   margin:0.6cqw 0 0; line-height:1; }
 .nt-names [hidden]{ display:none; }
@@ -544,23 +544,23 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
 
 
 /* =================================================================
-   ACT 2.5 — AGNON QUOTE (oval vellum)
+   THE AGNON QUOTE — blended into the temple's foreground (no card)
    ================================================================= */
-.quote-sec{ padding:clamp(40px,8vh,80px) 22px; display:flex; justify-content:center; }
-.quote-oval{ position:relative; margin:0; width:min(86vw,360px); text-align:center;
-  padding:clamp(48px,11vw,68px) clamp(30px,8vw,46px);
-  background:radial-gradient(120% 100% at 50% 38%,#f8f1de,#efe4c9);
-  border-radius:50% / 44%;
-  box-shadow:0 22px 48px -24px rgba(110,90,55,.5);
-}
-.quote-oval::before{ content:""; position:absolute; inset:9px; border:1px solid var(--line-soft);
-  border-radius:50% / 44%; pointer-events:none; }
+.quote-sec{ display:flex; justify-content:center; padding:0 24px clamp(34px,7vh,64px);
+  margin-top:clamp(-120px,-15vh,-66px); position:relative; z-index:2; }
+.temple-quote{ position:relative; margin:0; width:min(86vw,430px); text-align:center;
+  padding:clamp(14px,4vw,26px) clamp(6px,3vw,16px); }
+/* soft warm wash in the temple's own tones so the quote sits on it, blending */
+.temple-quote::before{ content:""; position:absolute; inset:-22% -26%; z-index:-1;
+  background:radial-gradient(ellipse at 50% 46%, rgba(235,223,197,.72) 0%,
+    rgba(235,223,197,.4) 46%, transparent 74%); }
 .quote-mark{ display:block; font-family:var(--serif); color:var(--gold); opacity:.5;
   font-size:46px; line-height:0; }
 .quote-mark-open{ height:.42em; margin-bottom:12px; }
 .quote-mark-close{ height:.5em; margin:14px 0 0; }
 .quote-text{ margin:0; font-family:var(--hebrew); color:var(--ink); font-weight:400;
-  font-size:clamp(15px,4.3vw,18px); line-height:2.05; }
+  font-size:clamp(15px,4.3vw,18px); line-height:2.05;
+  text-shadow:0 1px 6px rgba(243,236,221,.85); }
 html[dir="ltr"] .quote-text{ font-family:var(--serif); font-style:italic; line-height:1.75;
   font-size:clamp(16px,4.4vw,19px); }
 .quote-author{ margin-top:20px; font-size:12px; letter-spacing:.16em; color:var(--ink-soft); }
