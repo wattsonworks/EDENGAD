@@ -32,7 +32,7 @@
 
 *,*::before,*::after{ box-sizing:border-box; }
 
-html{ -webkit-text-size-adjust:100%; }
+html{ -webkit-text-size-adjust:100%; overflow-x:hidden; }
 
 body{
   margin:0;
@@ -525,10 +525,12 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
 /* =================================================================
    ACT 2 — STORY / GALLERY
    ================================================================= */
-.story{ padding:clamp(20px,4vh,44px) 20px clamp(20px,4vh,40px); max-width:760px; margin:0 auto; }
-.story-photo{ margin:0 auto; width:min(92vw,560px); border-radius:6px; overflow:hidden;
-  box-shadow:0 24px 50px -24px rgba(110,90,55,.55); }
-.story-photo img{ display:block; width:100%; height:auto; }
+.story{ padding:0 20px clamp(20px,4vh,40px); max-width:760px; margin:0 auto; }
+.story-photo{ margin:clamp(-34px,-5vh,-16px) auto 0; width:min(92vw,560px); }
+/* fade the top of the couple photo so it melts into the quote card above */
+.story-photo img{ display:block; width:100%; height:auto; border-radius:0 0 6px 6px;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%);
+          mask-image:linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%); }
 .story-head{ text-align:center; margin-bottom:clamp(30px,6vh,52px); }
 .mini-orn{ color:var(--gold); font-size:18px; }
 .story-title{ font-family:var(--serif); font-style:italic; font-weight:500;
@@ -551,7 +553,7 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
 .temple-quote{ position:relative; margin:0; width:min(86vw,430px); text-align:center;
   padding:clamp(14px,4vw,26px) clamp(6px,3vw,16px); }
 /* soft warm wash in the temple's own tones so the quote sits on it, blending */
-.temple-quote::before{ content:""; position:absolute; inset:-22% -26%; z-index:-1;
+.temple-quote::before{ content:""; position:absolute; inset:-22% -4%; z-index:-1;
   background:radial-gradient(ellipse at 50% 46%, rgba(235,223,197,.72) 0%,
     rgba(235,223,197,.4) 46%, transparent 74%); }
 .quote-mark{ display:block; font-family:var(--serif); color:var(--gold); opacity:.5;
