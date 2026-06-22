@@ -571,12 +571,7 @@ html[dir="rtl"] .quote-author{ letter-spacing:.04em; font-family:var(--hebrew); 
    ACT 3 — DETAILS
    ================================================================= */
 .details{ padding:clamp(40px,8vh,80px) 20px 0; }
-.details-inner{ max-width:880px; margin:0 auto; display:grid; gap:clamp(22px,5vw,40px);
-  align-items:center; }
-@media(min-width:720px){ .details-inner{ grid-template-columns:1fr 1.05fr; } }
-.details-photo{ margin:0; border-radius:6px; overflow:hidden;
-  box-shadow:0 24px 50px -22px rgba(120,70,72,.55); }
-.details-photo img{ display:block; width:100%; height:auto; }
+.details-inner{ max-width:440px; margin:0 auto; }
 
 .details-card{ position:relative; text-align:center;
   background:linear-gradient(168deg,#f8f1de,#ece0c4);
