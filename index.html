@@ -60,12 +60,14 @@
 <!-- ============================================================= -->
 <!--  ACT −1 — THE GATE (split doors that open to the sides)       -->
 <!-- ============================================================= -->
-<div id="gate" class="gate" role="button" tabindex="0" aria-label="הקליקו לכניסה">
+<div id="gate" class="gate" role="button" tabindex="0" aria-label="לחצו כאן לכניסה">
   <div class="gate-half gate-left"  aria-hidden="true"><span class="gate-art"></span></div>
   <div class="gate-half gate-right" aria-hidden="true"><span class="gate-art"></span></div>
   <div class="gate-seam" aria-hidden="true"></div>
+  <!-- pulsing tap ring at the centre so it reads as tappable -->
+  <span class="gate-pulse" aria-hidden="true"></span>
   <div class="gate-hint">
-    <span data-i18n="enterHint">הקליקו לכניסה</span>
+    <span class="gate-hint-pill" data-i18n="enterHint">לחצו כאן לכניסה</span>
     <span class="gate-chevs" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
       <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -80,7 +82,7 @@
 <!-- ============================================================= -->
 <div id="scratch-scene" class="scratch-scene">
   <div class="scratch-guide" id="scratchGuide">
-    <p class="scratch-instruct" data-i18n="scratchInstruct">לגרד בתוך העיגול</p>
+    <p class="scratch-instruct" data-i18n="scratchInstruct">גרדו את העיגול</p>
     <svg class="scratch-arrow" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2v22M5 16l7 7 7-7"/></svg>
   </div>
   <div class="reveal-wrap">
@@ -152,8 +154,9 @@
   </button>
 </header>
 
-<!-- persistent hint to scroll down for all the details -->
+<!-- persistent "scroll for more" cue, visible on every section -->
 <div class="scroll-down" id="scrollDown" aria-hidden="true">
+  <span class="scroll-down-label" data-i18n="scrollMore">גללו להמשך</span>
   <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>
 </div>
 
@@ -178,7 +181,7 @@
         <p class="nt-line" data-i18n="invite3">שיתקיים בעזרת ה׳ ביום ראשון, י״ב אב, התשפ״ו</p>
         <p class="nt-date">26.07.2026</p>
         <span class="nt-rule" aria-hidden="true"></span>
-        <p class="nt-line" data-i18n="ntSched">קבלת פנים 19:00 · חופה וקידושין 20:00</p>
+        <p class="nt-line" data-i18n="ntSched">קבלת פנים 19:30 · חופה וקידושין 20:30</p>
         <p class="nt-line nt-venue" data-i18n="ntVenue1">אולמי אלכסנדר</p>
         <p class="nt-line nt-venue" data-i18n="ntVenue2">המסיק 2, עמק חפר</p>
       </div>
@@ -195,10 +198,6 @@
       <div class="cd-item"><span class="cd-num" data-cd="secs">0</span><span class="cd-lbl" data-i18n="cdSecs">secs</span></div>
     </div>
 
-    <button type="button" class="scroll-cue" id="scrollCue" hidden>
-      <span data-i18n="scrollMore">With love, scroll for more</span>
-      <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
   </section>
 
 
@@ -257,8 +256,8 @@
           <div class="detail-row">
             <dt data-i18n="schedLabel">לוח זמנים</dt>
             <dd>
-              <span class="dd-strong" data-i18n="schedValue">קבלת פנים 19:00</span>
-              <span class="dd-sub" data-i18n="schedSub">חופה וקידושין 20:00</span>
+              <span class="dd-strong" data-i18n="schedValue">קבלת פנים 19:30</span>
+              <span class="dd-sub" data-i18n="schedSub">חופה וקידושין 20:30</span>
             </dd>
           </div>
           <div class="detail-row">

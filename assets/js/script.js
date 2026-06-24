@@ -10,8 +10,8 @@ const CONFIG = {
   names: { en: 'Eden & Gad', he: 'עדן & גד' },
 
   /* The wedding: Sunday · 12 Av 5786 · 26 July 2026.
-     Reception 19:00, Chuppah & Kiddushin 20:00 (Israel time). */
-  dateISO: '2026-07-26T20:00:00+03:00',   // chuppah, Israel time (UTC+3, summer)
+     Reception 19:30, Chuppah & Kiddushin 20:30 (Israel time). */
+  dateISO: '2026-07-26T20:30:00+03:00',   // chuppah, Israel time (UTC+3, summer)
 
   /* RSVP — set the WhatsApp number in international format, no "+" / spaces.
      e.g. '972501234567'.  Leave empty to hide the RSVP button. */
@@ -28,7 +28,7 @@ const CONFIG = {
 const I18N = {
   en: {
     loading: 'One moment…',
-    enterHint: 'Tap to enter',
+    enterHint: 'Tap here to enter',
     tapOpen: 'Tap to open',
     stdMini: 'SAVE THE DATE',
     namesMini: 'Eden & Gad',
@@ -37,14 +37,14 @@ const I18N = {
     invite3: 'with God’s blessing, on Sunday · 12 Av 5786',
     dateLabel: '12 Av 5786 · 26.07.2026',
     revealLabel: 'A moment with us',
-    scratchInstruct: 'Scratch inside the circle',
+    scratchInstruct: 'Scratch the circle',
     scratchHint: 'Scratch to reveal',
     ntInv1: 'With joy and excitement',
     ntInv2: 'we invite you to celebrate with us',
     ntInv3: 'on our wedding day',
     ntDay: 'Sunday',
     ntHdate: '12 Av 5786',
-    ntSched: 'Reception 19:00 · Chuppah & Kiddushin 20:00',
+    ntSched: 'Reception 19:30 · Chuppah & Kiddushin 20:30',
     ntVenue1: 'Alexander Halls',
     ntVenue2: 'HaMasik 2, Emek Hefer',
     ntClose1: 'We would love to see you and share with us',
@@ -60,8 +60,8 @@ const I18N = {
     whenLabel: 'When', schedLabel: 'Schedule', whereLabel: 'Where',
     whenValue: 'Sunday · 26 July 2026',
     whenSub: '12 Av 5786',
-    schedValue: 'Reception 19:00',
-    schedSub: 'Chuppah & Kiddushin 20:00',
+    schedValue: 'Reception 19:30',
+    schedSub: 'Chuppah & Kiddushin 20:30',
     whereValue: 'Alexander Halls',
     whereSub: 'HaMasik 2, Emek Hefer',
     addCal: 'Add to calendar',
@@ -70,7 +70,7 @@ const I18N = {
   },
   he: {
     loading: 'רגע אחד…',
-    enterHint: 'הקליקו לכניסה',
+    enterHint: 'לחצו כאן לכניסה',
     tapOpen: 'הקליקו לפתיחה',
     stdMini: 'שמרו את התאריך',
     namesMini: 'עדן & גד',
@@ -79,14 +79,14 @@ const I18N = {
     invite3: 'שיתקיים בעזרת ה׳ ביום ראשון, י״ב אב, התשפ״ו',
     dateLabel: 'י״ב באב התשפ״ו · 26.07.2026',
     revealLabel: 'רגע איתנו',
-    scratchInstruct: 'לגרד בתוך העיגול',
+    scratchInstruct: 'גרדו את העיגול',
     scratchHint: 'גרדו כדי לחשוף',
     ntInv1: 'בשמחה ובהתרגשות',
     ntInv2: 'מזמינים אתכם לחגוג עמנו',
     ntInv3: 'ביום חתונתנו',
     ntDay: 'יום ראשון',
     ntHdate: 'י״ב באב תשפ״ו',
-    ntSched: 'קבלת פנים 19:00 · חופה וקידושין 20:00',
+    ntSched: 'קבלת פנים 19:30 · חופה וקידושין 20:30',
     ntVenue1: 'אולמי אלכסנדר',
     ntVenue2: 'המסיק 2, עמק חפר',
     ntClose1: 'נשמח לראותכם ולחלוק עמכם',
@@ -102,8 +102,8 @@ const I18N = {
     whenLabel: 'מתי', schedLabel: 'לוח זמנים', whereLabel: 'איפה',
     whenValue: 'יום ראשון · 26 ביולי 2026',
     whenSub: 'י״ב באב התשפ״ו',
-    schedValue: 'קבלת פנים 19:00',
-    schedSub: 'חופה וקידושין 20:00',
+    schedValue: 'קבלת פנים 19:30',
+    schedSub: 'חופה וקידושין 20:30',
     whereValue: 'אולמי אלכסנדר',
     whereSub: 'המסיק 2, עמק חפר',
     addCal: 'הוספה ליומן',
