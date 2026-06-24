@@ -261,9 +261,7 @@ function revealCardScene() {
   setTimeout(() => $('#countdown')?.classList.add('show'), 300);
   startCountdown();
   setTimeout(() => {
-    const cue = $('#scrollCue');
-    if (cue) { cue.hidden = false; requestAnimationFrame(() => cue.classList.add('show')); }
-    $('#scrollDown')?.classList.add('show');      // persistent "scroll for details" hint
+    $('#scrollDown')?.classList.add('show');      // persistent "scroll for more" cue
   }, 1100);
 }
 
@@ -480,8 +478,9 @@ function finishReveal() {
   setTimeout(() => openEnvelope(), 2600);
 }
 
-$('#scrollCue')?.addEventListener('click', () =>
-  ($('#temple') || $('#story')).scrollIntoView({ behavior: 'smooth' }));
+/* tapping the persistent cue gently advances the reader down the page */
+$('#scrollDown')?.addEventListener('click', () =>
+  window.scrollBy({ top: Math.round(window.innerHeight * 0.85), behavior: 'smooth' }));
 
 
 /* =================================================================
