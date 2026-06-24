@@ -6,14 +6,21 @@
 <meta name="theme-color" content="#eccccd" />
 <!-- Private invitation — keep out of search engines -->
 <meta name="robots" content="noindex, nofollow" />
-<title>Eden &amp; Gad · Save the Date</title>
-<meta name="description" content="A scratch-to-reveal Save the Date for the wedding of Eden & Gad — 26 July 2026." />
+<title>קיבלתם הזמנה לחתונה של עדן וגד</title>
+<meta name="description" content="קיבלתם הזמנה לחתונה של עדן וגד · 26.07.2026 — גרדו את העיגול וגלו את ההזמנה" />
 
-<!-- Open Graph (for when the link is shared in WhatsApp) -->
+<!-- Open Graph (link preview in WhatsApp) -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Eden & Gad — We're getting married" />
-<meta property="og:description" content="Scratch to reveal our Save the Date ✨" />
-<meta property="og:image" content="assets/img/couple.jpg" />
+<meta property="og:locale" content="he_IL" />
+<meta property="og:url" content="https://wattsonworks.github.io/EDENGAD/" />
+<meta property="og:title" content="קיבלתם הזמנה לחתונה של עדן וגד" />
+<meta property="og:description" content="26.07.2026 · גרדו את העיגול וגלו את ההזמנה 💌" />
+<meta property="og:image" content="https://wattsonworks.github.io/EDENGAD/assets/img/og.jpg" />
+<meta property="og:image:width" content="820" />
+<meta property="og:image:height" content="1229" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="קיבלתם הזמנה לחתונה של עדן וגד" />
+<meta name="twitter:image" content="https://wattsonworks.github.io/EDENGAD/assets/img/og.jpg" />
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%92%8C%3C/text%3E%3C/svg%3E" />
 
@@ -72,7 +79,10 @@
 <!--             reveals the envelope behind)                       -->
 <!-- ============================================================= -->
 <div id="scratch-scene" class="scratch-scene">
-  <p class="keepsake-label" data-i18n="revealLabel">רגע איתנו</p>
+  <div class="scratch-guide" id="scratchGuide">
+    <p class="scratch-instruct" data-i18n="scratchInstruct">לגרד בתוך העיגול</p>
+    <svg class="scratch-arrow" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2v22M5 16l7 7 7-7"/></svg>
+  </div>
   <div class="reveal-wrap">
     <figure class="reveal-circle" id="revealCircle">
       <img class="reveal-img" src="assets/img/reveal.jpg"
@@ -142,6 +152,11 @@
   </button>
 </header>
 
+<!-- persistent hint to scroll down for all the details -->
+<div class="scroll-down" id="scrollDown" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>
+</div>
+
 
 <!-- ============================================================= -->
 <!--  ACT 1 — THE CARD                                             -->
@@ -165,7 +180,7 @@
         <span class="nt-rule" aria-hidden="true"></span>
         <p class="nt-line" data-i18n="ntSched">קבלת פנים 19:00 · חופה וקידושין 20:00</p>
         <p class="nt-line nt-venue" data-i18n="ntVenue1">אולמי אלכסנדר</p>
-        <p class="nt-line nt-venue" data-i18n="ntVenue2">המסילה 2, עמק חפר</p>
+        <p class="nt-line nt-venue" data-i18n="ntVenue2">המסיק 2, עמק חפר</p>
       </div>
     </figure>
 
@@ -188,18 +203,7 @@
 
 
   <!-- =========================================================== -->
-  <!--  ACT 1.5 — THE TEMPLE (blends in below the keepsake)        -->
-  <!-- =========================================================== -->
-  <section class="temple-feature" id="temple" aria-label="בית המקדש">
-    <figure class="temple-wrap">
-      <img class="temple-art" src="assets/img/temple.webp" alt="איור של בית המקדש" loading="lazy" />
-      <figcaption class="temple-verse" data-i18n="templeVerse">בְּחַצְרוֹת קׇדְשֶׁךָ…</figcaption>
-    </figure>
-  </section>
-
-
-  <!-- =========================================================== -->
-  <!--  THE QUOTE — S.Y. Agnon, blended in below the temple        -->
+  <!--  THE QUOTE — S.Y. Agnon, above the temple                   -->
   <!-- =========================================================== -->
   <section class="quote-sec" id="quote">
     <div class="temple-quote reveal-on-scroll">
@@ -208,6 +212,16 @@
       <span class="quote-mark quote-mark-close" aria-hidden="true">&#8221;</span>
       <figcaption class="quote-author" data-i18n="quoteAuthor">ש״י עגנון</figcaption>
     </div>
+  </section>
+
+
+  <!-- =========================================================== -->
+  <!--  THE TEMPLE (emerges below the quote)                       -->
+  <!-- =========================================================== -->
+  <section class="temple-feature" id="temple" aria-label="בית המקדש">
+    <figure class="temple-wrap">
+      <img class="temple-art" src="assets/img/temple.webp" alt="איור של בית המקדש" loading="lazy" />
+    </figure>
   </section>
 
 
@@ -251,7 +265,7 @@
             <dt data-i18n="whereLabel">איפה</dt>
             <dd>
               <span class="dd-strong" data-i18n="whereValue">אולמי אלכסנדר</span>
-              <span class="dd-sub" data-i18n="whereSub">המסילה 2, עמק חפר</span>
+              <span class="dd-sub" data-i18n="whereSub">המסיק 2, עמק חפר</span>
             </dd>
           </div>
         </dl>

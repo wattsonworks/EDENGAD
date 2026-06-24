@@ -20,7 +20,7 @@ const CONFIG = {
   /* Calendar event */
   cal: {
     title: 'החתונה של עדן וגד · Eden & Gad Wedding',
-    location: 'אולמי אלכסנדר, המסילה 2, עמק חפר',   // verify exact venue/address
+    location: 'אולמי אלכסנדר, המסיק 2, עמק חפר',   // verify exact venue/address
     durationHours: 5,
   },
 };
@@ -37,6 +37,7 @@ const I18N = {
     invite3: 'with God’s blessing, on Sunday · 12 Av 5786',
     dateLabel: '12 Av 5786 · 26.07.2026',
     revealLabel: 'A moment with us',
+    scratchInstruct: 'Scratch inside the circle',
     scratchHint: 'Scratch to reveal',
     ntInv1: 'With joy and excitement',
     ntInv2: 'we invite you to celebrate with us',
@@ -45,7 +46,7 @@ const I18N = {
     ntHdate: '12 Av 5786',
     ntSched: 'Reception 19:00 · Chuppah & Kiddushin 20:00',
     ntVenue1: 'Alexander Halls',
-    ntVenue2: 'HaMesila 2, Emek Hefer',
+    ntVenue2: 'HaMasik 2, Emek Hefer',
     ntClose1: 'We would love to see you and share with us',
     ntClose2: 'an evening of love, joy and blessing',
     templeVerse: 'In the courtyards of Your holiness…',
@@ -62,7 +63,7 @@ const I18N = {
     schedValue: 'Reception 19:00',
     schedSub: 'Chuppah & Kiddushin 20:00',
     whereValue: 'Alexander Halls',
-    whereSub: 'HaMesila 2, Emek Hefer',
+    whereSub: 'HaMasik 2, Emek Hefer',
     addCal: 'Add to calendar',
     rsvp: 'RSVP on WhatsApp',
     footer: 'We can’t wait to see you · 26.07.2026',
@@ -78,6 +79,7 @@ const I18N = {
     invite3: 'שיתקיים בעזרת ה׳ ביום ראשון, י״ב אב, התשפ״ו',
     dateLabel: 'י״ב באב התשפ״ו · 26.07.2026',
     revealLabel: 'רגע איתנו',
+    scratchInstruct: 'לגרד בתוך העיגול',
     scratchHint: 'גרדו כדי לחשוף',
     ntInv1: 'בשמחה ובהתרגשות',
     ntInv2: 'מזמינים אתכם לחגוג עמנו',
@@ -86,7 +88,7 @@ const I18N = {
     ntHdate: 'י״ב באב תשפ״ו',
     ntSched: 'קבלת פנים 19:00 · חופה וקידושין 20:00',
     ntVenue1: 'אולמי אלכסנדר',
-    ntVenue2: 'המסילה 2, עמק חפר',
+    ntVenue2: 'המסיק 2, עמק חפר',
     ntClose1: 'נשמח לראותכם ולחלוק עמכם',
     ntClose2: 'ערב של אהבה, שמחה וברכה',
     templeVerse: 'בְּחַצְרוֹת קׇדְשֶׁךָ…',
@@ -103,7 +105,7 @@ const I18N = {
     schedValue: 'קבלת פנים 19:00',
     schedSub: 'חופה וקידושין 20:00',
     whereValue: 'אולמי אלכסנדר',
-    whereSub: 'המסילה 2, עמק חפר',
+    whereSub: 'המסיק 2, עמק חפר',
     addCal: 'הוספה ליומן',
     rsvp: 'אישור הגעה בוואטסאפ',
     footer: 'נשמח לראותכם · 26.07.2026',
@@ -254,15 +256,24 @@ function openEnvelope() {
   }, 2750);
 }
 
-/* show the countdown + scroll cue once the card scene is live */
+/* show the countdown + scroll hints once the card scene is live */
 function revealCardScene() {
   setTimeout(() => $('#countdown')?.classList.add('show'), 300);
   startCountdown();
   setTimeout(() => {
     const cue = $('#scrollCue');
     if (cue) { cue.hidden = false; requestAnimationFrame(() => cue.classList.add('show')); }
+    $('#scrollDown')?.classList.add('show');      // persistent "scroll for details" hint
   }, 1100);
 }
+
+/* hide the persistent scroll arrow once the reader reaches the bottom */
+window.addEventListener('scroll', () => {
+  const sd = $('#scrollDown');
+  if (!sd) return;
+  const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 130;
+  sd.classList.toggle('at-bottom', nearBottom);
+}, { passive: true });
 
 scene.addEventListener('click', openEnvelope);
 scene.addEventListener('keydown', e => {
@@ -406,6 +417,7 @@ function onDown(e) {
   try { canvas.setPointerCapture?.(e.pointerId); } catch (err) {}
   scratchAt(lastPt.x, lastPt.y);
   hint.classList.add('hidden');
+  $('#scratchGuide')?.classList.add('hidden');
 }
 function onMove(e) {
   if (!scratching || revealed) return;
@@ -455,14 +467,17 @@ function finishReveal() {
   if (revealed) return;
   revealed = true;
   hint.classList.add('hidden');
+  $('#scratchGuide')?.classList.add('hidden');
   canvas.classList.add('cleared');
   document.body.classList.add('revealed');
 
   spawnSparkles();
 
-  // the scratch is revealed — now reveal the envelope waiting behind it
+  // the scratch is revealed — dismiss it, then OPEN the envelope on its own
+  // so it flows straight into the invitation (no second tap needed)
   setTimeout(() => scratchScene && scratchScene.classList.add('dismiss'), 1500);
   setTimeout(() => { if (scratchScene) scratchScene.style.display = 'none'; }, 2400);
+  setTimeout(() => openEnvelope(), 2600);
 }
 
 $('#scrollCue')?.addEventListener('click', () =>
