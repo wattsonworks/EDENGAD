@@ -649,6 +649,17 @@ html[dir="rtl"] .quote-author{ letter-spacing:.04em; font-family:var(--hebrew); 
 .f-line{ margin:8px 0 0; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-faint); }
 html[dir="rtl"] .f-line{ letter-spacing:.08em; }
 
+/* "Want an invitation like this?" maker promo */
+.maker-credit{ display:inline-flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:9px;
+  margin-top:clamp(20px,4vh,30px); padding:11px 22px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(255,255,255,.4);
+  font-family:var(--hebrew); font-size:15px; color:var(--ink-soft); text-decoration:none;
+  transition:background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease); }
+.maker-credit:hover{ background:rgba(255,255,255,.7); border-color:var(--gold-soft); transform:translateY(-1px); }
+html[dir="ltr"] .maker-credit{ font-family:var(--serif); letter-spacing:.02em; }
+.maker-phone{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px;
+  color:var(--gold); letter-spacing:.06em; font-variant-numeric:tabular-nums; }
+
 
 /* =================================================================
    SCROLL REVEAL

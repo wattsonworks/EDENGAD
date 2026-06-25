@@ -23,6 +23,9 @@ const CONFIG = {
     location: 'אולמי אלכסנדר, המסיק 2, עמק חפר',   // verify exact venue/address
     durationHours: 5,
   },
+
+  /* "Want an invitation like this?" maker promo at the foot of the page */
+  maker: { whatsapp: '972506787586', display: '050-678-7586' },
 };
 
 const I18N = {
@@ -52,6 +55,7 @@ const I18N = {
     templeVerse: 'In the courtyards of Your holiness…',
     cdDays: 'days', cdHours: 'hours', cdMins: 'mins', cdSecs: 'secs',
     scrollMore: 'Scroll for more',
+    makerQ: 'Want an invitation like this?',
     quote: 'And it seemed to me that the land I walked upon, and the streets I passed through, and the whole world entire — are but a corridor leading to this house.',
     quoteAuthor: 'S. Y. Agnon',
     storyTitle: 'Our story, in light',
@@ -94,6 +98,7 @@ const I18N = {
     templeVerse: 'בְּחַצְרוֹת קׇדְשֶׁךָ…',
     cdDays: 'ימים', cdHours: 'שעות', cdMins: 'דקות', cdSecs: 'שניות',
     scrollMore: 'גללו להמשך',
+    makerQ: 'רוצים הזמנה כזאת?',
     quote: 'וְדוֹמֶה הָיָה לִי שֶׁהָאָרֶץ שֶׁהָלַכְתִּי עָלֶיהָ וְהָרְחוֹבוֹת שֶׁעָבַרְתִּי בָּהֶם וְכָל הָעוֹלָם כֻּלּוֹ, אֵינָם אֶלָּא פְּרוֹזְדוֹר לְבַיִת זֶה.',
     quoteAuthor: 'ש״י עגנון',
     storyTitle: 'הסיפור שלנו, באור',
@@ -573,6 +578,16 @@ function buildActionLinks() {
     'END:VEVENT', 'END:VCALENDAR',
   ].filter(Boolean).join('\r\n');
   cal.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+
+  // "Want an invitation like this?" — maker WhatsApp link (prefill matches the language)
+  const maker = $('#makerLink');
+  if (maker && CONFIG.maker?.whatsapp) {
+    const lang = document.documentElement.lang === 'he' ? 'he' : 'en';
+    const mmsg = lang === 'he'
+      ? 'היי! ראיתי הזמנה דיגיטלית כזו ואשמח לפרטים 🤍'
+      : 'Hi! I saw a digital invitation like this and would love some details 🤍';
+    maker.href = `https://wa.me/${CONFIG.maker.whatsapp}?text=${encodeURIComponent(mmsg)}`;
+  }
 }
 
 
