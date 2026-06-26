@@ -252,6 +252,9 @@ function openEnvelope() {
   // 2. the lid folds up, opening the envelope
   setTimeout(() => scene.classList.add('is-open'), 300);
 
+  // ...and a burst of doves flies out of it, carrying the note into view
+  setTimeout(() => spawnDoves(), 380);
+
   // 3. gently lift the open envelope away & hand off to the card scene
   setTimeout(() => scene.classList.add('dismiss'), 2150);
   setTimeout(() => {
@@ -298,6 +301,46 @@ function spawnSealBurst() {
     b.style.setProperty('--by', (Math.sin(ang) * dist).toFixed(1) + 'px');
     host.appendChild(b);
   }
+}
+
+/* a burst of white doves flies out of the opening envelope, revealing the note */
+const DOVE_SVG =
+  '<svg viewBox="-50 -46 100 92" class="dove-svg" aria-hidden="true">' +
+    '<g class="wings">' +
+      '<path d="M-3 -1 C-22 -30 -40 -29 -46 -13 C-30 -9 -16 -1 -3 6 Z"/>' +
+      '<path d="M3 -1 C22 -30 40 -29 46 -13 C30 -9 16 -1 3 6 Z"/>' +
+    '</g>' +
+    '<ellipse cx="0" cy="7" rx="5.4" ry="15"/>' +
+    '<circle cx="0" cy="-12" r="4.5"/>' +
+    '<path d="M-4 19 L0 31 L4 19 Z"/>' +
+  '</svg>';
+
+function spawnDoves() {
+  const host = $('#doveBurst');
+  if (!host || prefersReduced) return;
+  host.innerHTML = '';
+  const N = 11;
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('span');
+    d.className = 'dove';
+    d.innerHTML = DOVE_SVG;
+    const spread = (i / (N - 1) - 0.5) * 2;          // -1 … 1 (left → right)
+    const angle  = spread * 1.18;                     // radians off straight-up (±~68°)
+    const dist   = 48 + Math.random() * 38;
+    const dx = Math.sin(angle) * dist;
+    const dy = -(Math.cos(angle) * dist) - 8;         // upward bias — released into the sky
+    d.style.setProperty('--sz',   (30 + Math.random() * 20).toFixed(0) + 'px');
+    d.style.setProperty('--dx',   dx.toFixed(1) + 'vw');
+    d.style.setProperty('--dy',   dy.toFixed(1) + 'vh');
+    d.style.setProperty('--rot0', (spread * 9).toFixed(1) + 'deg');
+    d.style.setProperty('--rot',  (spread * 24 + (Math.random() * 10 - 5)).toFixed(1) + 'deg');
+    d.style.setProperty('--sc',   (0.85 + Math.random() * 0.5).toFixed(2));
+    d.style.setProperty('--dur',  (1.5 + Math.random() * 0.7).toFixed(2) + 's');
+    d.style.setProperty('--delay',(i * 0.045 + Math.random() * 0.05).toFixed(2) + 's');
+    d.style.setProperty('--flap', (0.26 + Math.random() * 0.12).toFixed(2) + 's');
+    host.appendChild(d);
+  }
+  setTimeout(() => { host.innerHTML = ''; }, 3200);
 }
 
 /* ambient floating petals / sparkles behind the envelope */
