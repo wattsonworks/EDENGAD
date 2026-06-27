@@ -323,6 +323,41 @@ html[dir="ltr"] .scroll-down-label{ font-family:var(--serif); letter-spacing:.18
 }
 @media (prefers-reduced-motion: reduce){ .dove-burst{ display:none; } }
 
+/* ── ambient feathers + doves drifting in on scroll (CSS-3D, no WebGL) ── */
+.sky-life{ position:fixed; inset:0; z-index:40; pointer-events:none; overflow:hidden; perspective:760px; }
+
+.feather{ position:absolute; top:0; left:var(--x,50vw); width:var(--sz,18px); height:auto; opacity:0;
+  transform-style:preserve-3d; filter:drop-shadow(0 2px 3px rgba(90,70,45,.16)) blur(var(--blur,0px));
+  animation:featherFall var(--dur,8s) linear forwards; will-change:transform,opacity; }
+.feather-svg{ display:block; width:100%; height:auto; }
+.feather-svg .fv{ fill:#fdfcf8; }
+.feather-svg .fr{ stroke:rgba(150,120,75,.4); stroke-width:1; fill:none; }
+.feather-svg .fb line{ stroke:rgba(150,120,75,.26); stroke-width:.8; stroke-linecap:round; }
+@keyframes featherFall{
+  0%  { transform:translateY(-14vh) translateX(0) rotateZ(0) rotateY(0); opacity:0 }
+  9%  { opacity:var(--op,.5) }
+  28% { transform:translateY(16vh) translateX(var(--sx1,16px)) rotateZ(34deg) rotateY(180deg) }
+  52% { transform:translateY(44vh) translateX(var(--sx2,-22px)) rotateZ(-26deg) rotateY(360deg) }
+  76% { transform:translateY(72vh) translateX(var(--sx1,16px)) rotateZ(30deg) rotateY(540deg) }
+  91% { opacity:var(--op,.5) }
+  100%{ transform:translateY(116vh) translateX(0) rotateZ(-18deg) rotateY(var(--spin,680deg)); opacity:0 }
+}
+
+.glide-dove{ position:absolute; top:var(--y0,30vh); width:var(--sz,40px); height:auto; opacity:0;
+  filter:blur(var(--blur,0px)); animation:glideAcross var(--dur,8s) linear forwards; will-change:transform,opacity; }
+.glide-inner{ display:block; transform:rotateZ(var(--face,-90deg)); }
+.glide-dove .dove-svg{ display:block; width:100%; height:auto; filter:drop-shadow(0 3px 6px rgba(76,56,32,.24)); }
+.glide-dove .dove-svg *{ fill:#fdfcf8; }
+.glide-dove .wings{ transform-box:fill-box; transform-origin:50% 50%; animation:flap var(--flap,.34s) ease-in-out infinite; }
+@keyframes glideAcross{
+  0%  { transform:translate(0,0); opacity:0 }
+  8%  { opacity:var(--op,.7) }
+  50% { transform:translate(calc(var(--gx,150vw) * .5), calc(var(--gy,0px) * 1.4)); }
+  92% { opacity:var(--op,.7) }
+  100%{ transform:translate(var(--gx,150vw), var(--gy,0px)); opacity:0 }
+}
+@media (prefers-reduced-motion: reduce){ .sky-life{ display:none; } }
+
 /* hint */
 .open-hint{ display:flex; flex-direction:column; align-items:center; gap:6px;
   color:var(--ink-soft); z-index:2; transition:opacity .4s var(--ease); }

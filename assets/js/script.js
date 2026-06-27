@@ -304,6 +304,74 @@ window.addEventListener('scroll', () => {
   update();
 })();
 
+/* ambient feathers + gliding doves that drift in as you scroll down */
+const FEATHER_SVG =
+  '<svg viewBox="0 0 26 72" class="feather-svg" aria-hidden="true">' +
+    '<path class="fv" d="M13 2 C5 16 3 36 7 54 C9 62 11 67 13 70 C15 67 17 62 19 54 C23 36 21 16 13 2 Z"/>' +
+    '<line class="fr" x1="13" y1="7" x2="13" y2="65"/>' +
+    '<g class="fb">' +
+      '<line x1="13" y1="20" x2="7" y2="16"/><line x1="13" y1="20" x2="19" y2="16"/>' +
+      '<line x1="13" y1="32" x2="6" y2="29"/><line x1="13" y1="32" x2="20" y2="29"/>' +
+      '<line x1="13" y1="44" x2="7" y2="42"/><line x1="13" y1="44" x2="19" y2="42"/>' +
+      '<line x1="13" y1="55" x2="9" y2="54"/><line x1="13" y1="55" x2="17" y2="54"/>' +
+    '</g>' +
+  '</svg>';
+
+function spawnFeather() {
+  const layer = $('#skyLife');
+  if (!layer) return;
+  const f = document.createElement('span');
+  f.className = 'feather';
+  f.innerHTML = FEATHER_SVG;
+  const depth = Math.random();                       // 0 far … 1 near
+  f.style.setProperty('--x',   (Math.random() * 100).toFixed(1) + 'vw');
+  f.style.setProperty('--sz',  (12 + depth * 15).toFixed(0) + 'px');
+  f.style.setProperty('--op',  (0.26 + depth * 0.4).toFixed(2));
+  f.style.setProperty('--sx1', (Math.random() * 40 - 20).toFixed(0) + 'px');
+  f.style.setProperty('--sx2', (Math.random() * 64 - 32).toFixed(0) + 'px');
+  f.style.setProperty('--spin',(440 + Math.random() * 420).toFixed(0) + 'deg');
+  f.style.setProperty('--blur',(1.4 - depth * 1.4).toFixed(1) + 'px');
+  f.style.setProperty('--dur', (7.5 + Math.random() * 4 - depth * 1.6).toFixed(1) + 's');
+  f.addEventListener('animationend', () => f.remove());
+  layer.appendChild(f);
+}
+
+function spawnGlideDove() {
+  const layer = $('#skyLife');
+  if (!layer) return;
+  const d = document.createElement('span');
+  d.className = 'glide-dove';
+  d.innerHTML = '<span class="glide-inner">' + DOVE_SVG + '</span>';
+  const ltr = Math.random() > 0.5, depth = Math.random();
+  d.style.setProperty('--sz',   (26 + depth * 24).toFixed(0) + 'px');
+  d.style.setProperty('--y0',   (8 + Math.random() * 60).toFixed(0) + 'vh');
+  d.style.setProperty('--gy',   (Math.random() * 14 - 7).toFixed(0) + 'vh');
+  d.style.setProperty('--op',   (0.5 + depth * 0.42).toFixed(2));
+  d.style.setProperty('--flap', (0.28 + Math.random() * 0.12).toFixed(2) + 's');
+  d.style.setProperty('--blur', (1.2 - depth * 1.2).toFixed(1) + 'px');
+  d.style.setProperty('--dur',  (7 + Math.random() * 4 - depth * 1.5).toFixed(1) + 's');
+  if (ltr) { d.style.left = '-28vw'; d.style.setProperty('--gx', '150vw');  d.style.setProperty('--face', '-90deg'); }
+  else     { d.style.left = '100vw'; d.style.setProperty('--gx', '-150vw'); d.style.setProperty('--face', '90deg'); }
+  d.addEventListener('animationend', () => d.remove());
+  layer.appendChild(d);
+}
+
+(() => {
+  const layer = $('#skyLife');
+  if (!layer || prefersReduced) return;
+  let lastY = window.scrollY, accF = 0, accD = 0, ticking = false;
+  const run = () => {
+    ticking = false;
+    const y = window.scrollY;
+    const dy = y - lastY; lastY = y;
+    if (dy <= 0 || !document.body.classList.contains('opened')) return;   // only while scrolling down the invitation
+    accF += dy; accD += dy;
+    if (accF >= 115)  { accF = 0; if (layer.querySelectorAll('.feather').length < 16)    spawnFeather(); }
+    if (accD >= 1250) { accD = 0; if (layer.querySelectorAll('.glide-dove').length < 3)  spawnGlideDove(); }
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } }, { passive: true });
+})();
+
 scene.addEventListener('click', openEnvelope);
 scene.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
