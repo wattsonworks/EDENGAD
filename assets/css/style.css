@@ -563,12 +563,23 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
 .temple-feature{ position:relative; width:100%; display:flex; justify-content:center;
   margin-top:clamp(-72px,-9vh,-36px); pointer-events:none; }
 .temple-wrap{ position:relative; width:min(100%,620px); margin:0; }
-.temple-art{ display:block; width:100%; height:auto;
+.temple-art{ position:relative; z-index:1; display:block; width:100%; height:auto;
   /* the sky is already transparent (top blends into the fabric); fade the
      foreground so the join to the next section is feathered, not a square cut */
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
           mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
 }
+/* the sun — same warm disc as the TWI rooftop, but it RISES from behind the temple
+   (sits behind .temple-art; --p 0→1 is driven by scroll, set in script.js) */
+.temple-sun{ position:absolute; left:50%; z-index:0; --p:0;
+  top:calc(66% - var(--p) * 53%);            /* low behind the temple → high in the sky */
+  width:clamp(120px,30vw,210px); aspect-ratio:1; border-radius:50%;
+  transform:translate(-50%,-50%) scale(calc(.82 + var(--p) * .3));
+  opacity:calc(.12 + var(--p) * .88);
+  background:radial-gradient(circle,#fff7e6 0%,#ffd98a 36%,rgba(255,200,110,.5) 60%,transparent 73%);
+  box-shadow:0 0 70px 26px rgba(255,200,110,.3);
+  pointer-events:none; will-change:top,transform,opacity; }
+@media (prefers-reduced-motion: reduce){ .temple-sun{ transition:none; } }
 /* verse written over the temple's transparent sky */
 .temple-verse{ position:absolute; top:7%; left:6%; right:6%; margin:0; text-align:center;
   font-family:var(--hebrew); font-style:italic; font-weight:500; font-size:clamp(17px,5vw,25px);

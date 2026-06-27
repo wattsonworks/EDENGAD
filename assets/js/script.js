@@ -281,6 +281,29 @@ window.addEventListener('scroll', () => {
   sd.classList.toggle('at-bottom', nearBottom);
 }, { passive: true });
 
+/* the sun rises from behind the temple as that section scrolls up through the view */
+(() => {
+  const sun = $('[data-temple-sun]');
+  const wrap = sun && sun.closest('.temple-wrap');
+  if (!sun || !wrap) return;
+  if (prefersReduced) { sun.style.setProperty('--p', '0.6'); return; }   // static risen sun
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const r = wrap.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const center = r.top + r.height / 2;                 // section centre vs viewport
+    let p = (vh * 0.92 - center) / (vh * 0.92 - vh * 0.28);
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    sun.style.setProperty('--p', p.toFixed(3));
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
+
 scene.addEventListener('click', openEnvelope);
 scene.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
