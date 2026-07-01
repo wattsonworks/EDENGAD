@@ -172,7 +172,9 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
     }, 400);
   }
 
-  /* stream each asset for true byte-level progress, and cache it so the <img>/CSS reuse it */
+  /* stream each asset for true byte-level progress, THEN decode it so it's paint-ready
+     (bytes in cache aren't enough — the gate art is a CSS background and would flash in
+     blank behind the tap prompt if we reveal before it's decoded). */
   ASSETS.forEach((a, i) => {
     (async () => {
       try {
@@ -187,9 +189,11 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
           got += value.length;
           prog[i] = Math.min(1, got / len);
         }
-      } catch (e) {
-        await new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = a.url; });
-      }
+      } catch (e) { /* stream unsupported — the decode/load below still fetches it */ }
+      // decode into a paint-ready bitmap so the scene doesn't flash in blank on reveal
+      try { const img = new Image(); img.src = a.url; if (img.decode) await img.decode(); }
+      catch (e) { await new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = a.url; }); }
+      if (a.url.indexOf('gate.webp') >= 0) { const g = $('#gate'); if (g) g.classList.add('ready'); }  // gate art is up
       prog[i] = 1; settled++; maybeFinish();
     })();
   });
