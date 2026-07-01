@@ -650,16 +650,15 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
    THE AGNON QUOTE — on a cream vellum oval badge (restored)
    ================================================================= */
 .quote-sec{ display:flex; justify-content:center;
-  padding:clamp(24px,5vh,48px) 24px clamp(16px,3.5vh,32px);
+  padding:clamp(28px,6vh,56px) 24px clamp(18px,4vh,38px);
   margin-top:0; position:relative; z-index:2; }
-.temple-quote{ position:relative; margin:0; width:min(86vw,360px); text-align:center;
-  padding:clamp(46px,11vw,66px) clamp(30px,8vw,46px);
-  background:radial-gradient(120% 100% at 50% 38%,#f8f1de,#efe4c9);
-  border-radius:50% / 44%;
-  box-shadow:0 22px 48px -24px rgba(110,90,55,.5); }
-/* thin inner frame ring, just inside the oval edge */
-.temple-quote::before{ content:""; position:absolute; inset:9px; pointer-events:none;
-  border:1px solid var(--line-soft); border-radius:50% / 44%; }
+.temple-quote{ position:relative; margin:0; width:min(86vw,430px); text-align:center;
+  padding:clamp(16px,4vw,28px) clamp(8px,3vw,18px); }
+/* soft spotlight behind the text — large & feathered so it fades out with no hard edge
+   (extends well up past the timer above so the glow reads continuous, never "cut") */
+.temple-quote::before{ content:""; position:absolute; inset:-115% -30% -35%; z-index:-1; pointer-events:none;
+  background:radial-gradient(ellipse 62% 46% at 50% 66%,
+    rgba(236,224,198,.66) 0%, rgba(236,224,198,.4) 34%, rgba(236,224,198,.16) 56%, transparent 74%); }
 .quote-text{ margin:0; font-family:var(--hebrew); color:var(--ink); font-weight:400;
   font-size:clamp(15px,4.3vw,18px); line-height:2.05;
   text-shadow:0 1px 6px rgba(243,236,221,.85); }
