@@ -87,7 +87,9 @@ html[dir="ltr"] .pre-label{ font-family:var(--serif); font-style:italic; letter-
 .pre-bar{ position:relative; z-index:1; width:min(56vw,190px); height:2px;
   background:var(--line-soft); border-radius:2px; overflow:hidden; }
 .pre-bar-fill{ display:block; height:100%; width:0;
-  background:linear-gradient(90deg,var(--gold-soft),var(--gold)); transition:width .35s var(--ease); }
+  background:linear-gradient(90deg,var(--gold-soft),var(--gold)); }
+.pre-pct{ position:relative; z-index:1; font-family:var(--serif); font-size:11px;
+  letter-spacing:.18em; color:var(--ink-faint); font-variant-numeric:tabular-nums; }
 
 
 /* =================================================================

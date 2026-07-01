@@ -129,26 +129,82 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
   const pre = $('#preloader');
   if (!pre) return;
   const fill = $('#preBarFill');
-  const assets = ['bg.jpg', 'gate.webp', 'reveal.jpg', 'envbody.webp', 'envlid.webp',
-                  'cardblank.webp', 'temple.webp'].map(f => 'assets/img/' + f);
-  const total = assets.length;
-  let loaded = 0, finished = false;
+  const pct  = $('#prePct');
 
-  function dismiss() {
-    if (finished) return; finished = true;
-    if (fill) fill.style.width = '100%';
+  /* the gate + every surprise, weighted by ~byte size so the bar reflects REAL
+     download proportion instead of equal per-file chunks. */
+  const ASSETS = [
+    ['bg.jpg', 324000], ['gate.webp', 416000], ['reveal.jpg', 145000],
+    ['envbody.webp', 140000], ['envlid.webp', 79000], ['cardblank.webp', 145000],
+    ['temple.webp', 499000], ['scroll.webp', 319000],
+  ].map(([f, w]) => ({ url: 'assets/img/' + f, w }));
+  const TOTAL = ASSETS.reduce((s, a) => s + a.w, 0);
+  const prog  = new Array(ASSETS.length).fill(0);       // 0..1 downloaded, per asset
+  const totalFrac = () => ASSETS.reduce((s, a, i) => s + prog[i] * a.w, 0) / TOTAL;
+
+  let settled = 0, finished = false, fontsReady = false, minElapsed = false;
+
+  /* self-easing bar (setInterval, so it also ticks in non-painting/headless previews):
+     eases toward real progress, and gently trickles toward 90% if the network stalls,
+     so it never sits frozen. holds just under 100% until everything is truly ready. */
+  let shown = 0;
+  const tick = setInterval(() => {
+    const target = Math.min(totalFrac(), 1);
+    shown += (target - shown) * 0.18;
+    if (!finished && shown < 0.9) shown += (0.9 - shown) * 0.006;   // trickle when stalled
+    if (shown > 1) shown = 1;
+    const cap = finished ? shown : Math.min(shown, 0.985);
+    if (fill) fill.style.width = (cap * 100).toFixed(1) + '%';
+    if (pct)  pct.textContent  = Math.round(cap * 100) + '%';
+    if (finished && cap > 0.999) {
+      if (fill) fill.style.width = '100%';
+      if (pct)  pct.textContent  = '100%';
+      clearInterval(tick);
+    }
+  }, 40);
+
+  function maybeFinish() {
+    if (finished || settled < ASSETS.length || !fontsReady || !minElapsed) return;
+    finished = true;
     setTimeout(() => {
       pre.classList.add('done');
-      setTimeout(() => { pre.style.display = 'none'; }, 900);
-    }, 350);
+      setTimeout(() => { pre.style.display = 'none'; clearInterval(tick); }, 900);
+    }, 400);
   }
-  function bump() {
-    loaded++;
-    if (fill) fill.style.width = Math.round(loaded / total * 100) + '%';
-    if (loaded >= total) dismiss();
-  }
-  assets.forEach(src => { const img = new Image(); img.onload = bump; img.onerror = bump; img.src = src; });
-  setTimeout(dismiss, 8000);   // safety: never hang
+
+  /* stream each asset for true byte-level progress, and cache it so the <img>/CSS reuse it */
+  ASSETS.forEach((a, i) => {
+    (async () => {
+      try {
+        const res = await fetch(a.url, { cache: 'force-cache' });
+        if (!res.ok || !res.body || !res.body.getReader) throw 0;
+        const len = +res.headers.get('Content-Length') || a.w;
+        const reader = res.body.getReader();
+        let got = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          got += value.length;
+          prog[i] = Math.min(1, got / len);
+        }
+      } catch (e) {
+        await new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = a.url; });
+      }
+      prog[i] = 1; settled++; maybeFinish();
+    })();
+  });
+
+  /* also wait for webfonts (so the gate's type is right on first paint)… */
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve())
+    .then(() => { fontsReady = true; maybeFinish(); });
+  /* …a short minimum so a cached load doesn't just flash… */
+  setTimeout(() => { minElapsed = true; maybeFinish(); }, 600);
+  /* …and a hard cap so it can never hang. */
+  setTimeout(() => {
+    if (finished) return;
+    for (let i = 0; i < prog.length; i++) prog[i] = 1;
+    settled = ASSETS.length; fontsReady = true; minElapsed = true; maybeFinish();
+  }, 7000);
 })();
 
 
