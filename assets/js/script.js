@@ -280,6 +280,7 @@ function openGate() {
   gateOpened = true;
   setSound(true, true);      // ignite the music from its beginning on this first gesture
   gate.classList.add('open');
+  setTimeout(() => scratchScene && scratchScene.classList.add('lit'), 1500);  // reveal the scratch content as the doors swing clear
   setTimeout(() => gate.classList.add('gone'), 2300);
   setTimeout(() => { gate.style.display = 'none'; armScratch(); }, 2850);
 }

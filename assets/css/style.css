@@ -182,6 +182,12 @@ html[dir="ltr"] .gate-hint-pill{ letter-spacing:.16em; text-transform:uppercase;
   transition:opacity .85s var(--ease), visibility .85s;
 }
 .scratch-scene.dismiss{ opacity:0; visibility:hidden; pointer-events:none; }
+/* keep the scratch content hidden until the gate opens (adds .lit) — otherwise the
+   instruction + circle bleed through the transparent gate. only the matching cream
+   bg shows behind the gate; the content fades in as the doors swing clear. */
+.scratch-scene:not(.lit) .scratch-guide,
+.scratch-scene:not(.lit) .reveal-wrap{ opacity:0 !important; visibility:hidden; }
+.reveal-wrap{ transition:opacity .6s var(--ease), visibility .6s; }
 /* clear "scratch the circle" instruction + arrow pointing at the circle */
 .scratch-guide{ display:flex; flex-direction:column; align-items:center; gap:9px;
   transition:opacity .35s var(--ease); }
