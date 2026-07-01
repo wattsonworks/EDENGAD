@@ -281,21 +281,24 @@ window.addEventListener('scroll', () => {
   sd.classList.toggle('at-bottom', nearBottom);
 }, { passive: true });
 
-/* the sun rises from behind the temple as that section scrolls up through the view */
+/* the sun climbs to the foot of the quote, then its glow blooms over the quote.
+   progress is tied to the QUOTE (above the temple) so it emerges early — as you
+   scroll toward the quote — rather than waiting for the temple to be centred. */
 (() => {
   const sun = $('[data-temple-sun]');
-  const wrap = sun && sun.closest('.temple-wrap');
-  if (!sun || !wrap) return;
-  if (prefersReduced) { sun.style.setProperty('--p', '0.6'); return; }   // static risen sun
+  const quote = $('#quote');
+  if (!sun || !quote) return;
+  const clamp01 = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+  if (prefersReduced) { sun.style.setProperty('--rise', '0.85'); sun.style.setProperty('--glow', '0.5'); return; }
   let ticking = false;
   const update = () => {
     ticking = false;
-    const r = wrap.getBoundingClientRect();
+    const r = quote.getBoundingClientRect();
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    const center = r.top + r.height / 2;                 // section centre vs viewport
-    let p = (vh * 0.92 - center) / (vh * 0.92 - vh * 0.28);
-    p = p < 0 ? 0 : p > 1 ? 1 : p;
-    sun.style.setProperty('--p', p.toFixed(3));
+    const center = r.top + r.height / 2;                 // quote centre vs viewport
+    const raw = clamp01((vh * 0.9 - center) / (vh * 0.9 - vh * 0.34));
+    sun.style.setProperty('--rise', clamp01(raw / 0.55).toFixed(3));        // climbs to the quote's foot first
+    sun.style.setProperty('--glow', clamp01((raw - 0.5) / 0.5).toFixed(3));  // then the glow blooms over the quote
   };
   window.addEventListener('scroll', () => {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }

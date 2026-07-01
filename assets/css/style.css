@@ -604,16 +604,17 @@ html[dir="rtl"] .cd-lbl{ letter-spacing:.04em; text-indent:0; }
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
           mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 95%);
 }
-/* the sun — same warm disc as the TWI rooftop, but it RISES from behind the temple
-   (sits behind .temple-art; --p 0→1 is driven by scroll, set in script.js) */
-.temple-sun{ position:absolute; left:50%; z-index:0; --p:0;
-  top:calc(66% - var(--p) * 53%);            /* low behind the temple → high in the sky */
-  width:clamp(120px,30vw,210px); aspect-ratio:1; border-radius:50%;
-  transform:translate(-50%,-50%) scale(calc(.82 + var(--p) * .3));
-  opacity:calc(.12 + var(--p) * .88);
-  background:radial-gradient(circle,#fff7e6 0%,#ffd98a 36%,rgba(255,200,110,.5) 60%,transparent 73%);
-  box-shadow:0 0 70px 26px rgba(255,200,110,.3);
-  pointer-events:none; will-change:top,transform,opacity; }
+/* the sun rises from behind the temple up to the FOOT of the quote (--rise), then its
+   glow blooms to fill the quote's background (--glow). both driven by scroll in script.js.
+   sits behind .temple-art, and behind the quote-sec above, so it lights the quote from behind. */
+.temple-sun{ position:absolute; left:50%; z-index:0; --rise:0; --glow:0;
+  top:calc(66% - var(--rise) * 48%);          /* low behind temple → up to meet the quote's foot */
+  width:clamp(130px,32vw,220px); aspect-ratio:1; border-radius:50%;
+  transform:translate(-50%,-50%) scale(calc(.8 + var(--rise) * .32 + var(--glow) * .34));
+  opacity:calc(.1 + var(--rise) * .9);
+  background:radial-gradient(circle,#fff8e8 0%,#ffdb92 38%,rgba(255,201,112,.5) 60%,transparent 73%);
+  box-shadow:0 0 calc(52px + var(--glow) * 150px) calc(16px + var(--glow) * 92px) rgba(255,206,120, calc(.22 + var(--glow) * .3));
+  pointer-events:none; will-change:top,transform,opacity,box-shadow; }
 @media (prefers-reduced-motion: reduce){ .temple-sun{ transition:none; } }
 /* verse written over the temple's transparent sky */
 .temple-verse{ position:absolute; top:7%; left:6%; right:6%; margin:0; text-align:center;
