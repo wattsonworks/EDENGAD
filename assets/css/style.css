@@ -657,10 +657,6 @@ html[dir="ltr"] .temple-verse{ font-family:var(--serif); letter-spacing:.03em; }
 .temple-quote::before{ content:""; position:absolute; inset:-22% -4%; z-index:-1;
   background:radial-gradient(ellipse at 50% 46%, rgba(235,223,197,.72) 0%,
     rgba(235,223,197,.4) 46%, transparent 74%); }
-.quote-mark{ display:block; font-family:var(--serif); color:var(--gold); opacity:.5;
-  font-size:46px; line-height:0; }
-.quote-mark-open{ height:.42em; margin-bottom:12px; }
-.quote-mark-close{ height:.5em; margin:14px 0 0; }
 .quote-text{ margin:0; font-family:var(--hebrew); color:var(--ink); font-weight:400;
   font-size:clamp(15px,4.3vw,18px); line-height:2.05;
   text-shadow:0 1px 6px rgba(243,236,221,.85); }
